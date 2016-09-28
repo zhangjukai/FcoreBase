@@ -1,4 +1,4 @@
-package com.fcore.base.dao;
+package com.fcore.base.service.impl;
 
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -6,17 +6,16 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
-@Repository
-public class RedisDao {
+@Service("RedisServiceImpl")
+public class RedisServiceImpl {
 
 	@Autowired
 	RedisTemplate<Object, Object> redisTemplate;
 
 	/**
 	 * 批量删除对应的value
-	 * 
 	 * @param keys
 	 */
 	public void remove(final String... keys) {
@@ -27,7 +26,6 @@ public class RedisDao {
 
 	/**
 	 * 批量删除key
-	 * 
 	 * @param pattern
 	 */
 	public void removePattern(final String pattern) {
@@ -38,7 +36,6 @@ public class RedisDao {
 
 	/**
 	 * 删除对应的value
-	 * 
 	 * @param key
 	 */
 	public void remove(final String key) {
@@ -49,7 +46,6 @@ public class RedisDao {
 
 	/**
 	 * 判断缓存中是否有对应的value
-	 * 
 	 * @param key
 	 * @return
 	 */
@@ -59,7 +55,6 @@ public class RedisDao {
 
 	/**
 	 * 读取缓存
-	 * 
 	 * @param key
 	 * @return
 	 */
@@ -106,5 +101,4 @@ public class RedisDao {
 		}
 		return result;
 	}
-
 }

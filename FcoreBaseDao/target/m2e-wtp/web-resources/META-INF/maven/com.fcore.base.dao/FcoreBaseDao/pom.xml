@@ -61,11 +61,11 @@
 	    <version>2.4</version>
 	    <classifier>jdk15</classifier>
 	</dependency>
-	<dependency>
+	<!-- <dependency>
 		<groupId>fcoreCodeGenerate</groupId>
 		<artifactId>fcore.code.generate</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-	</dependency> 
+	</dependency> --> 
   </dependencies>
   <build>
     <finalName>FcoreBaseDao</finalName>
