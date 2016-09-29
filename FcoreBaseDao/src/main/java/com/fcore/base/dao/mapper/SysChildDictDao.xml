@@ -6,13 +6,13 @@
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-	id,sysDictId,name,key,value,isDelete,createUserId,createTime,updateUserId,updateTime
+	id,sysDictId,`name`,`key`,`value`,isDelete,createUserId,createTime,updateUserId,updateTime
 	</sql>
 	
     <!-- 单条新增  -->
 	<insert id="add" parameterType="com.fcore.base.entity.SysChildDict">
 		<![CDATA[
-		INSERT INTO sys_child_dict(id,sysDictId,name,key,value,isDelete,createUserId,createTime,updateUserId,updateTime) 
+		INSERT INTO sys_child_dict(id,sysDictId,`name`,`key`,`value`,isDelete,createUserId,createTime,updateUserId,updateTime) 
 		VALUES 
 		(#{id},#{sysDictId},#{name},#{key},#{value},#{isDelete},#{createUserId},#{createTime},#{updateUserId},#{updateTime})
 		]]>
@@ -78,38 +78,36 @@
 	
 	<!-- 根据条件查询 -->
 	<select id="getByParams" resultMap="result_SysChildDictMap" parameterType="java.util.Map">
-		select <include refid="Base_Column_List"/> from sys_child_dict
-		<where>
-			<if test="id != null and id != '' ">
-		      and id=#{id}
-	        </if>
-			<if test="sysDictId != null and sysDictId != '' ">
-		      and sysDictId=#{sysDictId}
-	        </if>
-			<if test="name != null and name != '' ">
-		      and name=#{name}
-	        </if>
-			<if test="key != null and key != '' ">
-		      and key=#{key}
-	        </if>
-			<if test="value != null and value != '' ">
-		      and value=#{value}
-	        </if>
-			<if test="isDelete != null and isDelete != '' ">
-		      and isDelete=#{isDelete}
-	        </if>
-			<if test="createUserId != null and createUserId != '' ">
-		      and createUserId=#{createUserId}
-	        </if>
-			<if test="createTime != null and createTime != '' ">
-		      and createTime=#{createTime}
-	        </if>
-			<if test="updateUserId != null and updateUserId != '' ">
-		      and updateUserId=#{updateUserId}
-	        </if>
-			<if test="updateTime != null and updateTime != '' ">
-		      and updateTime=#{updateTime}
-	        </if>
-		</where>
+		select <include refid="Base_Column_List"/> from sys_child_dict where isDelete = 1
+		<if test="id != null and id != '' ">
+	      and id=#{id}
+        </if>
+		<if test="sysDictId != null and sysDictId != '' ">
+	      and sysDictId=#{sysDictId}
+        </if>
+		<if test="name != null and name != '' ">
+	      and name=#{name}
+        </if>
+		<if test="key != null and key != '' ">
+	      and key=#{key}
+        </if>
+		<if test="value != null and value != '' ">
+	      and value=#{value}
+        </if>
+		<if test="isDelete != null and isDelete != '' ">
+	      and isDelete=#{isDelete}
+        </if>
+		<if test="createUserId != null and createUserId != '' ">
+	      and createUserId=#{createUserId}
+        </if>
+		<if test="createTime != null and createTime != '' ">
+	      and createTime=#{createTime}
+        </if>
+		<if test="updateUserId != null and updateUserId != '' ">
+	      and updateUserId=#{updateUserId}
+        </if>
+		<if test="updateTime != null and updateTime != '' ">
+	      and updateTime=#{updateTime}
+        </if>
 	</select>
 </mapper>

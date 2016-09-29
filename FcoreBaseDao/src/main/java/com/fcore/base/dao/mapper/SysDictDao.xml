@@ -6,13 +6,13 @@
 	</resultMap>
 	
 	<sql id="Base_Column_List">
-	id,name,key,value,isMoreLevel,remark,isDelete,createUserId,createTime,updateTime,updateUserId
+	id,`name`,`key`,`value`,isMoreLevel,remark,isDelete,createUserId,createTime,updateTime,updateUserId
 	</sql>
 	
     <!-- 单条新增  -->
 	<insert id="add" parameterType="com.fcore.base.entity.SysDict">
 		<![CDATA[
-		INSERT INTO sys_dict(id,name,key,value,isMoreLevel,remark,isDelete,createUserId,createTime,updateTime,updateUserId) 
+		INSERT INTO sys_dict(id,`name`,`key`,`value`,isMoreLevel,remark,isDelete,createUserId,createTime,updateTime,updateUserId) 
 		VALUES 
 		(#{id},#{name},#{key},#{value},#{isMoreLevel},#{remark},#{isDelete},#{createUserId},#{createTime},#{updateTime},#{updateUserId})
 		]]>
@@ -81,41 +81,39 @@
 	
 	<!-- 根据条件查询 -->
 	<select id="getByParams" resultMap="result_SysDictMap" parameterType="java.util.Map">
-		select <include refid="Base_Column_List"/> from sys_dict
-		<where>
-			<if test="id != null and id != '' ">
-		      and id=#{id}
-	        </if>
-			<if test="name != null and name != '' ">
-		      and name=#{name}
-	        </if>
-			<if test="key != null and key != '' ">
-		      and key=#{key}
-	        </if>
-			<if test="value != null and value != '' ">
-		      and value=#{value}
-	        </if>
-			<if test="isMoreLevel != null and isMoreLevel != '' ">
-		      and isMoreLevel=#{isMoreLevel}
-	        </if>
-			<if test="remark != null and remark != '' ">
-		      and remark=#{remark}
-	        </if>
-			<if test="isDelete != null and isDelete != '' ">
-		      and isDelete=#{isDelete}
-	        </if>
-			<if test="createUserId != null and createUserId != '' ">
-		      and createUserId=#{createUserId}
-	        </if>
-			<if test="createTime != null and createTime != '' ">
-		      and createTime=#{createTime}
-	        </if>
-			<if test="updateTime != null and updateTime != '' ">
-		      and updateTime=#{updateTime}
-	        </if>
-			<if test="updateUserId != null and updateUserId != '' ">
-		      and updateUserId=#{updateUserId}
-	        </if>
-		</where>
+		select <include refid="Base_Column_List"/> from sys_dict where isDelete = 1
+		<if test="id != null and id != '' ">
+	      and id=#{id}
+        </if>
+		<if test="name != null and name != '' ">
+	      and name=#{name}
+        </if>
+		<if test="key != null and key != '' ">
+	      and key=#{key}
+        </if>
+		<if test="value != null and value != '' ">
+	      and value=#{value}
+        </if>
+		<if test="isMoreLevel != null and isMoreLevel != '' ">
+	      and isMoreLevel=#{isMoreLevel}
+        </if>
+		<if test="remark != null and remark != '' ">
+	      and remark=#{remark}
+        </if>
+		<if test="isDelete != null and isDelete != '' ">
+	      and isDelete=#{isDelete}
+        </if>
+		<if test="createUserId != null and createUserId != '' ">
+	      and createUserId=#{createUserId}
+        </if>
+		<if test="createTime != null and createTime != '' ">
+	      and createTime=#{createTime}
+        </if>
+		<if test="updateTime != null and updateTime != '' ">
+	      and updateTime=#{updateTime}
+        </if>
+		<if test="updateUserId != null and updateUserId != '' ">
+	      and updateUserId=#{updateUserId}
+        </if>
 	</select>
 </mapper>

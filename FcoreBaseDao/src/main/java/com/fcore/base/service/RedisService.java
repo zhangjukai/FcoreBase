@@ -1,10 +1,5 @@
 package com.fcore.base.service;
 
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-
-import org.springframework.data.redis.core.ValueOperations;
-
 public interface RedisService {
 	/**
 	 * 批量删除对应的value

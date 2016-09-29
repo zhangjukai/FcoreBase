@@ -63,13 +63,11 @@
 	
 	<!-- 根据条件查询 -->
 	<select id="getByParams" resultMap="result_${table.entityName?cap_first}Map" parameterType="java.util.Map">
-		select <include refid="Base_Column_List"/> from ${table.tablename}
-		<where>
+		select <include refid="Base_Column_List"/> from ${table.tablename} where isDelete = 1
 		<#list table.fieldNames as field>
 			<if test="${field} != null and ${field} != '' ">
 		      and ${table.table_filelds[field_index]}=${r'#{'}${field}${r'}'}
 	        </if>
 		</#list>
-		</where>
 	</select>
 </mapper>
