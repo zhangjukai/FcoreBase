@@ -8,7 +8,7 @@ import com.fcore.service.CodeFactoryService;
 public class CodegenerateUtil {
 
 	public static void main(String[] args) {
-		codeRun("sys_child_dict", "zhangjukai", false, "127.0.0.1","spring_boot","root","123456");
+		codeRun("sys_dict", "zhangjukai", false, "127.0.0.1","spring_boot","root","123456");
 	}
 
 	/**
@@ -21,7 +21,7 @@ public class CodegenerateUtil {
 	 */
 	private static void codeRun(String tablename, String author,
 			boolean isCover, String ip, String dbname,String username,String pwd) {
-		String basePackage = "com.fcore.base";
+		String basePackage = "com.fcore.base.admin";
 		String realPath = CodegenerateUtil.class.getResource("/").toString();
 		realPath = realPath.substring(0, realPath.indexOf("/target/")) + "/";
 		String projectPath = (realPath + "src/main/").replaceAll("file:", "");
@@ -34,16 +34,16 @@ public class CodegenerateUtil {
 			FileEntity fileEntity = new FileEntity(projectPath, basePackage,author, isCover);
 			FlagEntity flagEntity = new FlagEntity();
 			// 控制不生成aciton web.xml page，默认为true
-			flagEntity.setCreateAction(false);
+			flagEntity.setCreateAction(true);
 			flagEntity.setCreateWebXml(false);
-			flagEntity.setCreatePage(false);
+			flagEntity.setCreatePage(true);
 			flagEntity.setCreatePropertie(false);
-			flagEntity.setCreateService(true);
+			flagEntity.setCreateService(false);
 			flagEntity.setCreateDao(false);
 			flagEntity.setCreateIDao(false);
-			flagEntity.setCreateMapperXml(true);
-			flagEntity.setCreateMapperJava(true);
-			flagEntity.setCreateIservice(true);
+			flagEntity.setCreateMapperXml(false);
+			flagEntity.setCreateMapperJava(false);
+			flagEntity.setCreateIservice(false);
 			// 设置加载模版方式为从引用项目加载
 			fileEntity.setTempateReadType(2);
 			// 设置模版路径

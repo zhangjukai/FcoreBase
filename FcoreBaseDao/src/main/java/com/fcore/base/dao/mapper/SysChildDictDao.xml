@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fcore.base.dao.SysChildDictDao">
+	<resultMap id="result_SysChildDictMap" type="com.fcore.base.entity.SysChildDict">
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+	id,sysDictId,name,key,value,isDelete,createUserId,createTime,updateUserId,updateTime
+	</sql>
+	
+    <!-- 单条新增  -->
+	<insert id="add" parameterType="com.fcore.base.entity.SysChildDict">
+		<![CDATA[
+		INSERT INTO sys_child_dict(id,sysDictId,name,key,value,isDelete,createUserId,createTime,updateUserId,updateTime) 
+		VALUES 
+		(#{id},#{sysDictId},#{name},#{key},#{value},#{isDelete},#{createUserId},#{createTime},#{updateUserId},#{updateTime})
+		]]>
+		<selectKey resultType="long" keyProperty="id">
+			select @@IDENTITY as id
+		</selectKey>
+    </insert>
+    
+     <!-- 根据id查询 -->
+	<select id="getById" parameterType="long" resultMap="result_SysChildDictMap">
+		select <include refid="Base_Column_List"/> from sys_child_dict where id=#{id}
+	</select>
+	
+	<!-- 分页查询列表 -->
+	<select id="getList"  resultMap="result_SysChildDictMap" parameterType="com.fcore.base.entity.SysChildDict">
+    	select <include refid="Base_Column_List"/> from sys_child_dict
+    	where isDelete = 1
+    	order by id desc 
+    	<if test="pageSize!=null and pageSize>0 and pageNumber!=null and pageNumber>0">
+    		limit ${(pageNumber-1)*pageSize},#{pageSize}
+    	</if>
+    </select>
+    <select id="getCount" parameterType="com.fcore.base.entity.SysChildDict" resultType="int">
+   		 select count(1) from sys_child_dict
+   		 where isDelete = 1
+    </select>
+
+	
+	<!-- 根据id修改记录 -->
+	<update id="update" parameterType="com.fcore.base.entity.SysChildDict">
+		update sys_child_dict
+		<trim prefix="set" prefixOverrides=",">
+			<if test="sysDictId != null and sysDictId >0">
+			,sysDictId = #{sysDictId}
+			</if>
+			<if test="name != null and name != ''">
+			,name = #{name}
+			</if>
+			<if test="key != null and key != ''">
+			,key = #{key}
+			</if>
+			<if test="value != null and value != ''">
+			,value = #{value}
+			</if>
+			<if test="isDelete != null and isDelete >0">
+			,isDelete = #{isDelete}
+			</if>
+			<if test="createUserId != null and createUserId >0">
+			,createUserId = #{createUserId}
+			</if>
+			<if test="createTime != null and createTime != ''">
+			,createTime = #{createTime}
+			</if>
+			<if test="updateUserId != null and updateUserId >0">
+			,updateUserId = #{updateUserId}
+			</if>
+			<if test="updateTime != null and updateTime != ''">
+			,updateTime = #{updateTime}
+			</if>
+		</trim>
+		where id=#{id}
+	</update>
+	
+	<!-- 根据条件查询 -->
+	<select id="getByParams" resultMap="result_SysChildDictMap" parameterType="java.util.Map">
+		select <include refid="Base_Column_List"/> from sys_child_dict
+		<where>
+			<if test="id != null and id != '' ">
+		      and id=#{id}
+	        </if>
+			<if test="sysDictId != null and sysDictId != '' ">
+		      and sysDictId=#{sysDictId}
+	        </if>
+			<if test="name != null and name != '' ">
+		      and name=#{name}
+	        </if>
+			<if test="key != null and key != '' ">
+		      and key=#{key}
+	        </if>
+			<if test="value != null and value != '' ">
+		      and value=#{value}
+	        </if>
+			<if test="isDelete != null and isDelete != '' ">
+		      and isDelete=#{isDelete}
+	        </if>
+			<if test="createUserId != null and createUserId != '' ">
+		      and createUserId=#{createUserId}
+	        </if>
+			<if test="createTime != null and createTime != '' ">
+		      and createTime=#{createTime}
+	        </if>
+			<if test="updateUserId != null and updateUserId != '' ">
+		      and updateUserId=#{updateUserId}
+	        </if>
+			<if test="updateTime != null and updateTime != '' ">
+		      and updateTime=#{updateTime}
+	        </if>
+		</where>
+	</select>
+</mapper>

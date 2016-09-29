@@ -15,17 +15,18 @@
   <modules>    
     <module>FcoreBaseDao</module>    
     <module>FcoreBaseAdmin</module>    
+    <module>FcoreBaseCodeGenerate</module>    
   </modules>
   <dependencies>
-    <dependency>
+    <!-- <dependency>
       <groupId>com.fcore.base.dao</groupId>
       <artifactId>FcoreBaseDao</artifactId>
       <version>0.0.1-SNAPSHOT</version>
-  	</dependency> 
-  	<dependency>
+  	</dependency>  -->
+  	<!-- <dependency>
       <groupId>com.fcore.base.admin</groupId>
       <artifactId>FcoreBaseAdmin</artifactId>
       <version>0.0.1-SNAPSHOT</version>
-  	 </dependency> 
+  	 </dependency>  -->
   </dependencies>
 </project>
