@@ -16,25 +16,70 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`spring_boot` /*!40100 DEFAULT CHARACTER
 
 USE `spring_boot`;
 
+/*Table structure for table `sys_child_dict` */
+
+DROP TABLE IF EXISTS `sys_child_dict`;
+
+CREATE TABLE `sys_child_dict` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `sysDictId` int(11) NOT NULL COMMENT '上级ID',
+  `name` varchar(256) COLLATE utf8_bin NOT NULL COMMENT '名称',
+  `key` varchar(100) COLLATE utf8_bin NOT NULL COMMENT 'key值',
+  `value` varchar(100) COLLATE utf8_bin NOT NULL COMMENT 'value值',
+  `isDelete` int(3) NOT NULL COMMENT '是否删除',
+  `createUserId` int(11) DEFAULT NULL COMMENT '创建人',
+  `createTime` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '创建时间',
+  `updateUserId` int(11) DEFAULT NULL COMMENT '修改人',
+  `updateTime` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+/*Data for the table `sys_child_dict` */
+
+insert  into `sys_child_dict`(`id`,`sysDictId`,`name`,`key`,`value`,`isDelete`,`createUserId`,`createTime`,`updateUserId`,`updateTime`) values (1,1,'男','sex_man','1',1,NULL,NULL,NULL,NULL),(2,1,'女','sex_men','2',1,NULL,NULL,NULL,NULL);
+
+/*Table structure for table `sys_dict` */
+
+DROP TABLE IF EXISTS `sys_dict`;
+
+CREATE TABLE `sys_dict` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `name` varchar(256) COLLATE utf8_bin NOT NULL COMMENT '名称',
+  `key` varchar(32) COLLATE utf8_bin NOT NULL COMMENT 'key值',
+  `value` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT 'value值',
+  `isMoreLevel` int(3) NOT NULL COMMENT '是否多级 1是 2否',
+  `remark` varchar(500) COLLATE utf8_bin DEFAULT NULL COMMENT '说明',
+  `isDelete` int(3) NOT NULL COMMENT '是否删除',
+  `createUserId` int(11) DEFAULT NULL COMMENT '创建人',
+  `createTime` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '创建时间',
+  `updateTime` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '修改时间',
+  `updateUserId` int(11) DEFAULT NULL COMMENT '修改人',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+/*Data for the table `sys_dict` */
+
+insert  into `sys_dict`(`id`,`name`,`key`,`value`,`isMoreLevel`,`remark`,`isDelete`,`createUserId`,`createTime`,`updateTime`,`updateUserId`) values (1,'性别','sex',NULL,1,NULL,1,NULL,NULL,NULL,NULL);
+
 /*Table structure for table `sys_permission` */
 
 DROP TABLE IF EXISTS `sys_permission`;
 
 CREATE TABLE `sys_permission` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8_bin NOT NULL,
-  `value` varchar(32) COLLATE utf8_bin NOT NULL,
-  `href` varchar(32) COLLATE utf8_bin DEFAULT NULL,
-  `parentId` int(11) DEFAULT NULL,
-  `parentIds` varchar(1024) COLLATE utf8_bin DEFAULT NULL,
-  `isLast` int(3) NOT NULL,
-  `createUserId` int(11) DEFAULT NULL,
-  `createTime` varchar(32) COLLATE utf8_bin DEFAULT NULL,
-  `updateUserId` int(11) DEFAULT NULL,
-  `updateTime` varchar(32) COLLATE utf8_bin DEFAULT NULL,
-  `isDelete` int(3) NOT NULL,
-  `levelCode` int(3) NOT NULL,
-  `orderCode` int(3) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `name` varchar(100) COLLATE utf8_bin NOT NULL COMMENT '权限名称',
+  `value` varchar(32) COLLATE utf8_bin NOT NULL COMMENT '权限值',
+  `href` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT 'URL',
+  `parentId` int(11) DEFAULT NULL COMMENT '父ID',
+  `parentIds` varchar(1024) COLLATE utf8_bin DEFAULT NULL COMMENT '父ID集合',
+  `isLast` int(3) NOT NULL COMMENT '最后一级',
+  `createUserId` int(11) DEFAULT NULL COMMENT '创建人',
+  `createTime` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '创建时间',
+  `updateUserId` int(11) DEFAULT NULL COMMENT '更新人',
+  `updateTime` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '更新时间',
+  `isDelete` int(3) NOT NULL COMMENT '删除标记',
+  `levelCode` int(3) NOT NULL COMMENT '层级编号',
+  `orderCode` int(3) NOT NULL COMMENT '排序编号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -45,14 +90,14 @@ CREATE TABLE `sys_permission` (
 DROP TABLE IF EXISTS `sys_role`;
 
 CREATE TABLE `sys_role` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `roleName` varchar(128) COLLATE utf8_bin NOT NULL,
-  `description` varchar(1000) COLLATE utf8_bin DEFAULT NULL,
-  `createUserId` int(11) DEFAULT NULL,
-  `createTime` varchar(32) COLLATE utf8_bin DEFAULT NULL,
-  `updateUserId` int(11) DEFAULT NULL,
-  `updateTime` varchar(32) COLLATE utf8_bin DEFAULT NULL,
-  `isDelete` int(3) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `roleName` varchar(128) COLLATE utf8_bin NOT NULL COMMENT '角色名称',
+  `description` varchar(1000) COLLATE utf8_bin DEFAULT NULL COMMENT '角色描述',
+  `createUserId` int(11) DEFAULT NULL COMMENT '创建人',
+  `createTime` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '创建时间',
+  `updateUserId` int(11) DEFAULT NULL COMMENT '修改人',
+  `updateTime` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '修改时间',
+  `isDelete` int(3) NOT NULL COMMENT '删除标记',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
@@ -64,7 +109,8 @@ DROP TABLE IF EXISTS `sys_role_per`;
 
 CREATE TABLE `sys_role_per` (
   `sysRoleId` int(11) NOT NULL,
-  `sysPerId` int(11) NOT NULL
+  `sysPerId` int(11) NOT NULL,
+  PRIMARY KEY (`sysRoleId`,`sysPerId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Data for the table `sys_role_per` */
@@ -74,25 +120,25 @@ CREATE TABLE `sys_role_per` (
 DROP TABLE IF EXISTS `sys_user`;
 
 CREATE TABLE `sys_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `userName` varchar(100) COLLATE utf8_bin NOT NULL,
-  `loginName` varchar(100) COLLATE utf8_bin NOT NULL,
-  `mobile` int(11) DEFAULT NULL,
-  `salt` varchar(36) COLLATE utf8_bin NOT NULL,
-  `password` varchar(32) COLLATE utf8_bin NOT NULL,
-  `lastLoginIp` varchar(32) COLLATE utf8_bin DEFAULT NULL,
-  `lastLoginTime` varchar(32) COLLATE utf8_bin DEFAULT NULL,
-  `createUserId` int(11) DEFAULT NULL,
-  `createTime` varchar(32) COLLATE utf8_bin DEFAULT NULL,
-  `updateUserId` int(11) DEFAULT NULL,
-  `updateTime` varchar(32) COLLATE utf8_bin DEFAULT NULL,
-  `isDelete` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `userName` varchar(100) COLLATE utf8_bin NOT NULL COMMENT '用户名称',
+  `loginName` varchar(100) COLLATE utf8_bin NOT NULL COMMENT '登录名称',
+  `mobile` int(11) DEFAULT NULL COMMENT '手机号码',
+  `salt` varchar(36) COLLATE utf8_bin NOT NULL COMMENT '加密盐',
+  `password` varchar(32) COLLATE utf8_bin NOT NULL COMMENT '登录秘密',
+  `lastLoginIp` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '最后登录IP',
+  `lastLoginTime` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '最后登录时间',
+  `createUserId` int(11) DEFAULT NULL COMMENT '创建人',
+  `createTime` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '创建时间',
+  `updateUserId` int(11) DEFAULT NULL COMMENT '修改人',
+  `updateTime` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '修改时间',
+  `isDelete` int(11) NOT NULL COMMENT '删除标记',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Data for the table `sys_user` */
 
-insert  into `sys_user`(`id`,`userName`,`loginName`,`mobile`,`salt`,`password`,`lastLoginIp`,`lastLoginTime`,`createUserId`,`createTime`,`updateUserId`,`updateTime`,`isDelete`) values (1,'张居开','zjk',NULL,'b48690cd-78c8-4fcc-9df5-412308e607e0','a149a73da75fb4c9cfbd54ff2a1ea2d2',NULL,NULL,0,'2016-09-22 14:25:07',0,NULL,1),(2,'张居开','zjk',NULL,'768a4275-c5f8-4d1a-8b15-727a33f794d6','41c725b5a77263ffa19ac8b1d7615013',NULL,NULL,0,NULL,0,NULL,1),(3,'张居开','zjk',NULL,'b82d02fe-7100-467f-8354-eaa7fdd8a7df','74182f70d4b6c0f60e6164195205306a',NULL,NULL,0,NULL,0,NULL,1),(4,'张居开','zjk',NULL,'018ba40f-7dc4-47bf-8efd-4205a64c2b2b','2dd73ff1fa68c84fc266b4227009b53f',NULL,NULL,0,NULL,0,NULL,1),(5,'张居开','zjk',NULL,'0c8d3251-4e2f-43ad-8323-57aa86d7ae28','3bed467eb506a93bc4511e52d7e6b234',NULL,NULL,0,NULL,0,NULL,1);
+insert  into `sys_user`(`id`,`userName`,`loginName`,`mobile`,`salt`,`password`,`lastLoginIp`,`lastLoginTime`,`createUserId`,`createTime`,`updateUserId`,`updateTime`,`isDelete`) values (1,'张居开','zjk',NULL,'b48690cd-78c8-4fcc-9df5-412308e607e0','a149a73da75fb4c9cfbd54ff2a1ea2d2','0:0:0:0:0:0:0:1','2016-09-28 16:36:06',0,'2016-09-22 14:25:07',0,NULL,1);
 
 /*Table structure for table `sys_user_role` */
 
@@ -100,7 +146,8 @@ DROP TABLE IF EXISTS `sys_user_role`;
 
 CREATE TABLE `sys_user_role` (
   `sysUserId` int(11) NOT NULL,
-  `sysRoleId` int(11) NOT NULL
+  `sysRoleId` int(11) NOT NULL,
+  PRIMARY KEY (`sysUserId`,`sysRoleId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Data for the table `sys_user_role` */
