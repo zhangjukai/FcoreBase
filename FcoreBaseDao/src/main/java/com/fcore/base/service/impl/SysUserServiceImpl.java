@@ -59,7 +59,13 @@ public class SysUserServiceImpl  extends BaseServiceImpl<SysUser,Long> implement
 		int count = userDao.getCount(user);
 		pager.setList(list);
 		pager.setTotalCount(count);
+		pager.setPageNumber(user.getPageNumber());
 		return pager;
+	}
+
+	@Override
+	public int checkLoginName(Map<String, Object> map) {
+		return userDao.checkLoginName(map);
 	}
 	
 }

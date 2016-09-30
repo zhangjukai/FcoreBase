@@ -9,9 +9,6 @@ function save(parentIndex){
 	$.post(url,params,function(data){
 		layer.close(index);
 		layer.msg("保存成功！");
-		setTimeout(function() {
-			$(window.parent).find('#searchForm').submit();				
-		  }, 1500);
 		layer.close(parentIndex);
 	 },'json');
 }

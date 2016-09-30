@@ -48,14 +48,10 @@ html { overflow-x: hidden; overflow-y: auto; }
 			<td th:text="${obj.id}">id</td>
 			<td th:text="${obj.roleName}">roleName</td>
 			<td th:text="${obj.description}">description</td>
-			<td th:text="${obj.createUserId}">createUserId</td>
 			<td th:text="${obj.createTime}">createTime</td>
-			<td th:text="${obj.updateUserId}">updateUserId</td>
-			<td th:text="${obj.updateTime}">updateTime</td>
-			<td th:text="${obj.isDelete}">isDelete</td>
 		 <td >
-	  		<a class="btn btn-primary btn-xs"  href="javascript:void(0)" onclick="addOrEdit(${obj.id)" role="button" title="编辑">编辑</a>
-	  	    <a class="btn btn-primary btn-xs"  href="javascript:del('${obj.id }');" role="button" title="删除">删除</a>		         	   
+	  		<a class="btn btn-primary btn-xs"  th:onclick="'addOrEdit(\'' +${obj.id}+ '\')'" role="button" title="编辑">编辑</a>
+	  	    <a class="btn btn-primary btn-xs"  th:onclick="'del(\'' +${obj.id }+ '\')'" role="button" title="删除">删除</a>		         	   
 	     </td>
 	</tr>
      <tr th:if="${pager.totalCount lt 1}">

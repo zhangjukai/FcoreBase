@@ -1,5 +1,10 @@
 package com.fcore.base.admin.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fcore.base.admin.bean.CommonConstants;
+import com.fcore.base.admin.config.UserRealm;
 import com.fcore.base.bean.Pager;
 import com.fcore.base.entity.SysUser;
 import com.fcore.base.service.SysUserService;
@@ -29,6 +35,8 @@ public class SysUserController extends BaseController{
 
 	@Autowired
 	private SysUserService sysUserService;
+	@Autowired
+	private UserRealm userRealm; 
 	
 	@RequestMapping(value="/list")
 	public String list(Model model,SysUser sysUser) {
@@ -62,6 +70,8 @@ public class SysUserController extends BaseController{
 			sysUser.setCreateTime(DateTimeUtil.getNowDateStr(DateTimeUtil.yyyy_MM_dd_HH_mm_ss));
 			sysUser.setCreateUserId(user.getId());
 			sysUser.setIsDelete(1);
+			sysUser.setSalt(UUID.randomUUID().toString());
+			sysUser.setPassword(userRealm.shiroMd5(sysUser.getPassword(), sysUser.getSalt(), UserRealm.hashIterations));
 			long id = sysUserService.add(sysUser);
 			object.put("state",1);
 		}
@@ -80,6 +90,11 @@ public class SysUserController extends BaseController{
 			sysUser.setUpdateUserId(user.getId());
 			sysUser.setIsDelete(2);
 			sysUserService.update(sysUser);
+			object.put("state", 1);
+			object.put("msg", CommonConstants.DELETE_SUC_INFO);
+		}else{
+			object.put("state", -1);
+			object.put("msg", CommonConstants.DELETE_ERR_INFO);
 		}
 		CommUtil.writeJson(response, object.toString());
 	}
@@ -94,5 +109,18 @@ public class SysUserController extends BaseController{
 			sysUser = sysUserService.getById(Long.parseLong(id));
 		}
 		return sysUser;
+	}
+	
+	@RequestMapping("/checkLoginName")
+	@ResponseBody
+	public void checkLoginName(HttpServletResponse response,SysUser sysUser){
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", sysUser.getId());
+		map.put("loginName", sysUser.getLoginName());
+		int count = sysUserService.checkLoginName(map);
+		JSONObject object = new JSONObject();
+		object.put("state", count);
+		object.put("msg", CommonConstants.CHECK_LOGINNAME_MSG);
+		CommUtil.writeJson(response, object.toString());
 	}
 }

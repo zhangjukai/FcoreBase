@@ -1,5 +1,7 @@
 package com.fcore.base.service;
 
+import java.util.Map;
+
 import com.fcore.base.entity.SysUser;
 
 public interface SysUserService extends BaseService<SysUser,Long>{
@@ -10,5 +12,12 @@ public interface SysUserService extends BaseService<SysUser,Long>{
 	 * @return
 	 */
 	public SysUser getUserByLoginName(String loginName);
+
+	/**
+	 * 验证登录名是否重复
+	 * @param map
+	 * @return
+	 */
+	public int checkLoginName(Map<String, Object> map);
 
 }

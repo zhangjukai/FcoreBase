@@ -16,7 +16,7 @@ public class Pager implements Serializable {
 	public static final int MAX_PAGE_SIZE = 500;// 每页最大记录数限制
 
 	private int pageNumber = 1;// 当前页码
-	private int pageSize = 10;// 每页记录数
+	private int pageSize = 1;// 每页记录数
 	private int totalCount = 0;// 总记录数
 	private int pageCount = 0;// 总页数
 	private List<?> list;// 数据List

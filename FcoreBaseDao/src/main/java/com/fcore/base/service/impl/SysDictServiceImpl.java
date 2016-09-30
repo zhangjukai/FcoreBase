@@ -41,6 +41,7 @@ public class SysDictServiceImpl  extends BaseServiceImpl<SysDict,Long> implement
 		int count = sysDictDao.getCount(sysDict);
 		pager.setList(list);
 		pager.setTotalCount(count);
+		pager.setPageNumber(sysDict.getPageNumber());
 		return pager;
 	}
 	

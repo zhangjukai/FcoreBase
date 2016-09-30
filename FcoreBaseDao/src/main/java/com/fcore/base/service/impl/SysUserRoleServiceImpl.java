@@ -43,6 +43,7 @@ public class SysUserRoleServiceImpl  extends BaseServiceImpl<SysUserRole,Long> i
 		int count = sysUserRoleDao.getCount(sysUserRole);
 		pager.setList(list);
 		pager.setTotalCount(count);
+		pager.setPageNumber(sysUserRole.getPageNumber());
 		return pager;
 	}
 	

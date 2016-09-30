@@ -33,6 +33,7 @@ import com.fcore.base.service.SysUserService;
 @Component("userRealm")
 public class UserRealm extends AuthorizingRealm {
 
+	public static final int hashIterations = 2;
 	
 	@Autowired
 	private SysUserService userService; 
@@ -41,7 +42,7 @@ public class UserRealm extends AuthorizingRealm {
 		setName("UserRealm");
 		// 采用MD5加密
 		HashedCredentialsMatcher matcher = new HashedCredentialsMatcher("md5");
-		matcher.setHashIterations(2);
+		matcher.setHashIterations(hashIterations);
 		setCredentialsMatcher(matcher);
 	}
 

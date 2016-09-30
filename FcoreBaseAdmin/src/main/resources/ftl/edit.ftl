@@ -24,23 +24,23 @@ html { overflow-x: hidden; overflow-y: auto; }
      		<#list table.fieldNames as i>
  			<#--排除主键生成form字段-->
     		<#if table.primary_colmun != table.fieldNames[i_index]>
-        		<tr>
-            		<td  class="text-r" style="width: 15%">${table.remaks[i_index]}</td>
-           			<#if table.fieldNames[i_index] != 'createdate' || table.fieldNames[i_index] != 'changedate'>
-            		<td>
-	        			<#if table.filedTypes[i_index] != "Date" && table.colSizes[i_index] &lt; 10000>
-			     		<input type="text" style="width:20%" name="${table.fieldNames[i_index]}"  placeholder="请输入${table.remaks[i_index]}" th:value="${r"${"}${table.entityName?uncap_first}.${table.fieldNames[i_index]}}" class="form-control validate[required]"/>
-			     		</#if>
-			     		<#if table.filedTypes[i_index] == "Date">
-			     		<input type="text" style="width:20%;height:33px;" onClick="WdatePicker()"  name="${table.fieldNames[i_index]}"  placeholder="日期" th:value="<fmt:formatDate value="${r"${"}${table.entityName?uncap_first}.${table.fieldNames[i_index]}}" pattern="yyyy-MM-dd HH:mm:ss"/>" class="form-control Wdate validate[required]"/>
-			     		</#if>
-			     		<#if table.colSizes[i_index] &gt; 10000>
-			     		<textarea id="xh_editor" name="${table.fieldNames[i_index]}" cols="100" rows="8" style="width:98%;height:300px;visibility:hidden;">${r"${"}${table.entityName?uncap_first}.${table.fieldNames[i_index]}}</textarea>
-			     		</#if>
-            		</td>
-            </#if>
-        </tr>
-      </#if>
+			<tr>
+	    		<td  class="text-r" style="width: 15%">${table.remaks[i_index]}</td>
+	   			<#if table.fieldNames[i_index] != 'createdate' || table.fieldNames[i_index] != 'changedate'>
+	    		<td>
+	    			<#if table.filedTypes[i_index] != "Date" && table.colSizes[i_index] &lt; 10000>
+		     		<input type="text" style="width:20%" name="${table.fieldNames[i_index]}"  placeholder="请输入${table.remaks[i_index]}" th:value="${r"${"}${table.entityName?uncap_first}.${table.fieldNames[i_index]}}" class="form-control validate[required]"/>
+		     		</#if>
+		     		<#if table.filedTypes[i_index] == "Date">
+		     		<input type="text" style="width:20%;height:33px;" onClick="WdatePicker()"  name="${table.fieldNames[i_index]}"  placeholder="日期" th:value="<fmt:formatDate value="${r"${"}${table.entityName?uncap_first}.${table.fieldNames[i_index]}}" pattern="yyyy-MM-dd HH:mm:ss"/>" class="form-control Wdate validate[required]"/>
+		     		</#if>
+		     		<#if table.colSizes[i_index] &gt; 10000>
+		     		<textarea id="xh_editor" name="${table.fieldNames[i_index]}" cols="100" rows="8" style="width:98%;height:300px;visibility:hidden;">${r"${"}${table.entityName?uncap_first}.${table.fieldNames[i_index]}}</textarea>
+		     		</#if>
+	    		</td>
+	       		</#if>
+	    	</tr>
+      		</#if>
 	</#list>
     </table>
    </form>

@@ -42,6 +42,7 @@ public class SysPermissionServiceImpl  extends BaseServiceImpl<SysPermission,Lon
 		int count = sysPermissionDao.getCount(sysPermission);
 		pager.setList(list);
 		pager.setTotalCount(count);
+		pager.setPageNumber(sysPermission.getPageNumber());
 		return pager;
 	}
 	

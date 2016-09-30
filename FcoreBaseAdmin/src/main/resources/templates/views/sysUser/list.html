@@ -9,12 +9,14 @@
 <script type="text/javascript" th:src="@{/resource/js/jquery.simplePagination.js}"></script>
 <script type="text/javascript" th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
 <script type="text/javascript" th:src="@{/resource/plugins/layer/layer.js}"></script>
-<script type="text/javascript" th:src="@{/resource/js/list.js}"></script>
 <style type="text/css">
 th{text-align: center;}
 tbody{color: #666;}
 html { overflow-x: hidden; overflow-y: auto; }
 </style>
+<script type="text/javascript">
+
+</script>
 </head>
 <body>
 <div class="container-fluid" style="padding: 30px;">
@@ -45,8 +47,8 @@ html { overflow-x: hidden; overflow-y: auto; }
       	<th>操作</th>
         </tr>
     </thead>
-    	 <tr th:each="obj:${pager.list}">
-			<td th:text="${obj.id}">id</td>
+    	 <tr th:each="obj,iterStat:${pager.list}">
+			<td th:text="${iterStat.count}">0</td>
 			<td th:text="${obj.userName}">userName</td>
 			<td th:text="${obj.loginName}">loginName</td>
 			<td th:text="${obj.mobile}">mobile</td>
@@ -70,5 +72,6 @@ html { overflow-x: hidden; overflow-y: auto; }
 	    </div>			
 	</div>
 </div>
+<script type="text/javascript" th:src="@{/resource/js/list.js}"></script>
 </body>
 </html>

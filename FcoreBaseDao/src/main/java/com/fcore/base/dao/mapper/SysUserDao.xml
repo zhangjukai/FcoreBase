@@ -106,4 +106,14 @@
 	      and loginName = #{loginName}  
         </if>
 	</select>
+	<select id="checkLoginName" resultType="int" parameterType="java.util.Map">
+		select count(1) from sys_user
+		where isDelete = 1
+    	<if test="id!=null and id>0">
+    		and id != #{id}
+    	</if>
+		<if test="loginName != null and loginName != '' ">
+	      and loginName = #{loginName}  
+        </if>
+	</select>
 </mapper>

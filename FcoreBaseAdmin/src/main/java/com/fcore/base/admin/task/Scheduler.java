@@ -15,7 +15,7 @@ public class Scheduler {
 		logger.info("每分钟执行一次。结束。");
 	}  
 
-	@Scheduled(fixedRate=20000)
+	//@Scheduled(fixedRate=20000)
 	public void testTasks() {    
 		logger.info("每20秒执行一次。开始……");
 		//statusTask.healthCheck();

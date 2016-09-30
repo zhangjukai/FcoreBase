@@ -41,6 +41,7 @@ public class ${table.entityName?cap_first}ServiceImpl  extends BaseServiceImpl<$
 		int count = ${table.entityName?uncap_first}Dao.getCount(${table.entityName?uncap_first});
 		pager.setList(list);
 		pager.setTotalCount(count);
+		pager.setPageNumber(${table.entityName?uncap_first}.getPageNumber());
 		return pager;
 	}
 	
