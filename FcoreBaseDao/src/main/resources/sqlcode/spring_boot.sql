@@ -55,11 +55,32 @@ CREATE TABLE `sys_dict` (
   `updateTime` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '修改时间',
   `updateUserId` int(11) DEFAULT NULL COMMENT '修改人',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Data for the table `sys_dict` */
 
-insert  into `sys_dict`(`id`,`name`,`key`,`value`,`isMoreLevel`,`remark`,`isDelete`,`createUserId`,`createTime`,`updateTime`,`updateUserId`) values (1,'性别','sex',NULL,1,NULL,1,NULL,NULL,NULL,NULL);
+insert  into `sys_dict`(`id`,`name`,`key`,`value`,`isMoreLevel`,`remark`,`isDelete`,`createUserId`,`createTime`,`updateTime`,`updateUserId`) values (1,'性别','sex',NULL,1,NULL,1,NULL,NULL,NULL,NULL),(2,'允许上传的文件类型','UPLOAD_FILE_TYPE','.png,.gif,.jpg,.jpeg,.bmp,.PNG,.GIF,.JPG,.JPEG,.BMP,.doc,.docx,.xlsx,.xls,.pdf,.rar,.zip',2,NULL,1,NULL,NULL,NULL,NULL),(3,'文件上传根目录','UPLOAD_FILE_ROOT_PATH','E:/',2,NULL,1,NULL,NULL,NULL,NULL);
+
+/*Table structure for table `sys_file` */
+
+DROP TABLE IF EXISTS `sys_file`;
+
+CREATE TABLE `sys_file` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `fileName` varchar(100) COLLATE utf8_bin NOT NULL COMMENT '文件名',
+  `fileSize` int(11) NOT NULL COMMENT '文件大小',
+  `fileType` varchar(32) COLLATE utf8_bin NOT NULL COMMENT '文件类型',
+  `suffix` varchar(32) COLLATE utf8_bin NOT NULL COMMENT '后缀名',
+  `filePath` varchar(200) COLLATE utf8_bin NOT NULL COMMENT '文件路径',
+  `isDelete` int(3) NOT NULL COMMENT '是否删除',
+  `createUserId` int(11) DEFAULT NULL COMMENT '创建人',
+  `createTime` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '创建时间',
+  `updateUserId` int(11) DEFAULT NULL COMMENT '修改人',
+  `updateTime` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+/*Data for the table `sys_file` */
 
 /*Table structure for table `sys_permission` */
 
@@ -123,7 +144,7 @@ CREATE TABLE `sys_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `userName` varchar(100) COLLATE utf8_bin NOT NULL COMMENT '用户名称',
   `loginName` varchar(100) COLLATE utf8_bin NOT NULL COMMENT '登录名称',
-  `mobile` int(11) DEFAULT NULL COMMENT '手机号码',
+  `mobile` varchar(11) COLLATE utf8_bin DEFAULT NULL COMMENT '手机号码',
   `salt` varchar(36) COLLATE utf8_bin NOT NULL COMMENT '加密盐',
   `password` varchar(32) COLLATE utf8_bin NOT NULL COMMENT '登录秘密',
   `lastLoginIp` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '最后登录IP',
@@ -134,11 +155,11 @@ CREATE TABLE `sys_user` (
   `updateTime` varchar(32) COLLATE utf8_bin DEFAULT NULL COMMENT '修改时间',
   `isDelete` int(11) NOT NULL COMMENT '删除标记',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 /*Data for the table `sys_user` */
 
-insert  into `sys_user`(`id`,`userName`,`loginName`,`mobile`,`salt`,`password`,`lastLoginIp`,`lastLoginTime`,`createUserId`,`createTime`,`updateUserId`,`updateTime`,`isDelete`) values (1,'张居开','zjk',NULL,'b48690cd-78c8-4fcc-9df5-412308e607e0','a149a73da75fb4c9cfbd54ff2a1ea2d2','0:0:0:0:0:0:0:1','2016-09-28 16:36:06',0,'2016-09-22 14:25:07',0,NULL,1);
+insert  into `sys_user`(`id`,`userName`,`loginName`,`mobile`,`salt`,`password`,`lastLoginIp`,`lastLoginTime`,`createUserId`,`createTime`,`updateUserId`,`updateTime`,`isDelete`) values (1,'张居开','zjk','13880394348','b48690cd-78c8-4fcc-9df5-412308e607e0','a149a73da75fb4c9cfbd54ff2a1ea2d2','127.0.0.1','2016-09-30 11:34:30',0,'2016-09-22 14:25:07',1,'2016-09-30 11:04:02',1),(2,'张三','zhangsan·','13388370901','353e965e-c482-4fd3-842d-0cc584e64e12','a0a4d4ae95bbfb05a4173ff382cd7112',NULL,NULL,1,'2016-09-30 11:11:54',1,'2016-09-30 11:13:49',2),(3,'张三','zhangsan','13880394348','ae8e59f3-25fa-4b96-8993-467176e7f52e','1ba07f6b007e215114f24b450d614b56',NULL,NULL,1,'2016-09-30 11:23:16',1,'2016-09-30 11:28:02',1);
 
 /*Table structure for table `sys_user_role` */
 
