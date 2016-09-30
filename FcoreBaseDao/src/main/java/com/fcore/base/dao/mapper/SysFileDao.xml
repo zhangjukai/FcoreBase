@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fcore.base.dao.SysFileDao">
+	<resultMap id="result_SysFileMap" type="com.fcore.base.entity.SysFile">
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+	id,fileName,fileSize,fileType,suffix,filePath,isDelete,createUserId,createTime,updateUserId,updateTime
+	</sql>
+	
+    <!-- 单条新增  -->
+	<insert id="add" parameterType="com.fcore.base.entity.SysFile">
+		<![CDATA[
+		INSERT INTO sys_file(id,fileName,fileSize,fileType,suffix,filePath,isDelete,createUserId,createTime,updateUserId,updateTime) 
+		VALUES 
+		(#{id},#{fileName},#{fileSize},#{fileType},#{suffix},#{filePath},#{isDelete},#{createUserId},#{createTime},#{updateUserId},#{updateTime})
+		]]>
+		<selectKey resultType="long" keyProperty="id">
+			select @@IDENTITY as id
+		</selectKey>
+    </insert>
+    
+     <!-- 根据id查询 -->
+	<select id="getById" parameterType="long" resultMap="result_SysFileMap">
+		select <include refid="Base_Column_List"/> from sys_file where id=#{id}
+	</select>
+	
+	<!-- 分页查询列表 -->
+	<select id="getList"  resultMap="result_SysFileMap" parameterType="com.fcore.base.entity.SysFile">
+    	select <include refid="Base_Column_List"/> from sys_file
+    	where isDelete = 1
+    	order by id desc 
+    	<if test="pageSize!=null and pageSize>0 and pageNumber!=null and pageNumber>0">
+    		limit ${(pageNumber-1)*pageSize},#{pageSize}
+    	</if>
+    </select>
+    <select id="getCount" parameterType="com.fcore.base.entity.SysFile" resultType="int">
+   		 select count(1) from sys_file
+   		 where isDelete = 1
+    </select>
+
+	
+	<!-- 根据id修改记录 -->
+	<update id="update" parameterType="com.fcore.base.entity.SysFile">
+		update sys_file
+		<trim prefix="set" prefixOverrides=",">
+			<if test="fileName != null and fileName != ''">
+			,fileName = #{fileName}
+			</if>
+			<if test="fileSize != null and fileSize >0">
+			,fileSize = #{fileSize}
+			</if>
+			<if test="fileType != null and fileType != ''">
+			,fileType = #{fileType}
+			</if>
+			<if test="suffix != null and suffix != ''">
+			,suffix = #{suffix}
+			</if>
+			<if test="filePath != null and filePath != ''">
+			,filePath = #{filePath}
+			</if>
+			<if test="isDelete != null and isDelete >0">
+			,isDelete = #{isDelete}
+			</if>
+			<if test="createUserId != null and createUserId >0">
+			,createUserId = #{createUserId}
+			</if>
+			<if test="createTime != null and createTime != ''">
+			,createTime = #{createTime}
+			</if>
+			<if test="updateUserId != null and updateUserId >0">
+			,updateUserId = #{updateUserId}
+			</if>
+			<if test="updateTime != null and updateTime != ''">
+			,updateTime = #{updateTime}
+			</if>
+		</trim>
+		where id=#{id}
+	</update>
+	
+	<!-- 根据条件查询 -->
+	<select id="getByParams" resultMap="result_SysFileMap" parameterType="java.util.Map">
+		select <include refid="Base_Column_List"/> from sys_file where isDelete = 1
+			<if test="id != null and id != '' ">
+		      and id=#{id}
+	        </if>
+			<if test="fileName != null and fileName != '' ">
+		      and fileName=#{fileName}
+	        </if>
+			<if test="fileSize != null and fileSize != '' ">
+		      and fileSize=#{fileSize}
+	        </if>
+			<if test="fileType != null and fileType != '' ">
+		      and fileType=#{fileType}
+	        </if>
+			<if test="suffix != null and suffix != '' ">
+		      and suffix=#{suffix}
+	        </if>
+			<if test="filePath != null and filePath != '' ">
+		      and filePath=#{filePath}
+	        </if>
+			<if test="isDelete != null and isDelete != '' ">
+		      and isDelete=#{isDelete}
+	        </if>
+			<if test="createUserId != null and createUserId != '' ">
+		      and createUserId=#{createUserId}
+	        </if>
+			<if test="createTime != null and createTime != '' ">
+		      and createTime=#{createTime}
+	        </if>
+			<if test="updateUserId != null and updateUserId != '' ">
+		      and updateUserId=#{updateUserId}
+	        </if>
+			<if test="updateTime != null and updateTime != '' ">
+		      and updateTime=#{updateTime}
+	        </if>
+	</select>
+</mapper>

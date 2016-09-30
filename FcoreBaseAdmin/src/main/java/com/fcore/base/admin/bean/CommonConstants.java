@@ -11,5 +11,8 @@ public class CommonConstants {
 	public static final String DELETE_SUC_INFO = "提示信息：删除成功！";
 	public static final String DELETE_ERR_INFO = "提示信息：删除失败！";
 
-	public static final Object CHECK_LOGINNAME_MSG = "提示信息：该用户名已经存在，请重新输入!";
+	public static final String CHECK_LOGINNAME_MSG = "提示信息：该用户名已经存在，请重新输入!";
+
+	public static final int UPLOAD_FILE_ERROR_TYPE_CODE = -1;
+	public static final String UPLOAD_FILE_ERROR_TYPE_MSG = "提示信息：不允许上传此类文件！";
 }

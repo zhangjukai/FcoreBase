@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta charset="UTF-8" />
+<title>列表</title>
+<link th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" rel="stylesheet" media="screen"></link>
+<link th:href="@{/resource/plugins/FileUpload/css/uploadFile.css}" rel="stylesheet" media="screen"></link>
+<script type="text/javascript" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/resource/plugins/layer/layer.js}"></script>
+<script type="text/javascript" th:src="@{/resource/plugins/FileUpload/js/uploadFile.js}"></script>
+</head>
+<body>
+	<div class="container-fluid" style="padding: 30px;">
+		<div id="mainDivId" style="width: 700px;">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<div style="margin-bottom: 10px;cursor: pointer;width: 90px;float: left;">
+						<button type="button" class="btn btn-primary" style="position: absolute;" ><i class="icon-plus"></i>选择文件</button>
+						<input type="file" value="选择文件"  multiple='multiple' class="btn btn-github btn-success fileIput" id="files" style="cursor: pointer;"/><br/>
+					</div>
+					<div style="float: left;"> 
+						<button type="button" class="btn btn-danger" style="position: absolute;">删除文件</button>
+					</div>
+				</div>
+
+				<!-- Table -->
+				<table class="table table-hover">
+					<thead id="fileThead">
+						<tr>
+							<th style="width: 5%;"><input type="checkbox" onclick="checkAll(this,'ids')" /></th>
+							<th style="width: 120px;">文件预览</th>
+							<th>文件名称</th>
+							<th>文件大小</th>
+						</tr>
+					</thead>
+					<tbody id="fileBody">
+						<tr>
+							<td><input type="checkbox" name="ids" value=""/></td>
+							<td><img th:src="@{/resource/plugins/FileUpload/images/Word.png}" alt="..." class="img-thumbnail"/></td>
+							<td>qwqw</td>
+							<td>qwqw</td>
+						</tr>
+						<tr>
+							<td><input type="checkbox" name="ids" value=""/></td>
+							<td><img th:src="@{/resource/plugins/FileUpload/images/Word.png}" alt="..." class="img-thumbnail"/></td>
+							<td>qwqw</td>
+							<td>qwqw</td>
+						</tr>
+					</tbody>
+				</table>
+				<div style="padding: 10px;" id="fileProgress">
+					<div class="progress">
+					  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+					    60%
+					  </div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function(){
+			var data = {};
+			data.mainID = "#mainDivId";
+			$("body").FileUpload(data);	
+		});
+	</script>
+</body>
+</html>

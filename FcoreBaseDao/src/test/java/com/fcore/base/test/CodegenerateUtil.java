@@ -8,7 +8,7 @@ import com.fcore.service.CodeFactoryService;
 public class CodegenerateUtil {
 
 	public static void main(String[] args) {
-		codeRun("sys_child_dict", "zhangjukai", false, "127.0.0.1","spring_boot","root","123456");
+		codeRun("sys_file", "zhangjukai", false, "127.0.0.1","spring_boot","root","123456");
 	}
 
 	/**
