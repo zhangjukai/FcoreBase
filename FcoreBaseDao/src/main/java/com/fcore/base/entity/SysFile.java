@@ -68,5 +68,15 @@ public class SysFile extends BaseEntity implements Serializable{
 	public String getFilePath(){
 		return filePath;
 	}
+
+	public SysFile(String fileName, Long fileSize, String fileType, String suffix, String filePath) {
+		super();
+		this.fileName = fileName;
+		this.fileSize = fileSize;
+		this.fileType = fileType;
+		this.suffix = suffix;
+		this.filePath = filePath;
+	}
+	public SysFile() { }
 }
 
