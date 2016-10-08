@@ -12,7 +12,8 @@
 <body>
 	<div class="container-fluid" style="padding: 30px;">
 		<div id="mainDivId" style="width: 700px;">
-			<div class="panel panel-default">
+		
+			<!-- <div class="panel panel-default">
 				<div class="panel-body">
 					<div style="margin-bottom: 10px;cursor: pointer;width: 90px;float: left;">
 						<button type="button" class="btn btn-primary" style="position: absolute;" ><i class="icon-plus"></i>选择文件</button>
@@ -23,7 +24,7 @@
 					</div>
 				</div>
 
-				<!-- Table -->
+				Table
 				<table class="table table-hover">
 					<thead id="fileThead">
 						<tr>
@@ -55,7 +56,7 @@
 					  </div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 
 		</div>
 	</div>
@@ -63,6 +64,17 @@
 		$(function(){
 			var data = {};
 			data.mainID = "#mainDivId";
+			var uploadFileType = "";
+			$.ajax({  
+		         type : "post",  
+		          url : "/initUploadData",  
+		          async : false,  
+		          success : function(d){
+		        	  d =  eval('(' + d + ')');
+		        	 uploadFileType = d.uploadFileType;
+		          }  
+		     });
+			data.uploadFileType = uploadFileType;
 			$("body").FileUpload(data);	
 		});
 	</script>

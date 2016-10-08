@@ -10,6 +10,8 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
 public class UploadFileUtil {
 
 	/**
@@ -79,6 +81,31 @@ public class UploadFileUtil {
 		}else {
 			return fileLength + "B";
 		}
+	}
+
+	public static String getFileType(String fileType) {
+		String str = "notype";
+		if(StringUtils.isNotEmpty(fileType)){
+			if(fileType.contains("word")){
+				str = "word";
+			}
+			if(fileType.contains("video")){
+				str = "video";
+			}
+			if(fileType.contains("image")){
+				str = "image";
+			}
+			if(fileType.contains("excel") || fileType.contains("sheet")){
+				str = "excel";
+			}
+			if(fileType.contains("pdf")){
+				str = "pdf";
+			}
+			if(fileType.contains("ppt")){
+				str = "ppt";
+			}
+		}
+		return str;
 	}
 	
 	

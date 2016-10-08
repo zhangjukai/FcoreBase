@@ -15,4 +15,6 @@ public class CommonConstants {
 
 	public static final int UPLOAD_FILE_ERROR_TYPE_CODE = -1;
 	public static final String UPLOAD_FILE_ERROR_TYPE_MSG = "提示信息：不允许上传此类文件！";
+	public static final int UPLOAD_FILE_SUCC_TYPE_CODE = 1;
+	public static final String UPLOAD_FILE_SUCC_TYPE_MSG = "提示信息：上传成功！";
 }

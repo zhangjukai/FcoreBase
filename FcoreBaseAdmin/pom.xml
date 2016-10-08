@@ -31,17 +31,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
-        
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>bootstrap</artifactId>
-            <version>3.2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>jquery</artifactId>
-            <version>2.1.1</version>
-        </dependency>
         <dependency>
 		    <groupId>org.apache.shiro</groupId>
 		    <artifactId>shiro-core</artifactId>
@@ -71,6 +60,21 @@
 			<groupId>fcore.code.generate</groupId>
 			<artifactId>FcoreBaseCodeGenerate</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>3.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+        <dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>zTree</artifactId>
+		    <version>3.5.18</version>
 		</dependency>
   </dependencies>
   
