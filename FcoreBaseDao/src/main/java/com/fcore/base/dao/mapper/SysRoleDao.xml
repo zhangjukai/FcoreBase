@@ -29,7 +29,10 @@
 	<!-- 分页查询列表 -->
 	<select id="getList"  resultMap="result_SysRoleMap" parameterType="com.fcore.base.entity.SysRole">
     	select <include refid="Base_Column_List"/> from sys_role
-    	where isDelete = 1
+    	where isDelete = 0
+    	<if test="roleName != null and roleName != '' ">
+	      and roleName like CONCAT('%',#{roleName},'%') 
+        </if>
     	order by id desc 
     	<if test="pageSize!=null and pageSize>0 and pageNumber!=null and pageNumber>0">
     		limit ${(pageNumber-1)*pageSize},#{pageSize}
@@ -37,7 +40,10 @@
     </select>
     <select id="getCount" parameterType="com.fcore.base.entity.SysRole" resultType="int">
    		 select count(1) from sys_role
-   		 where isDelete = 1
+   		 where isDelete = 0
+    	<if test="roleName != null and roleName != '' ">
+	      and roleName like CONCAT('%',#{roleName},'%') 
+        </if>
     </select>
 
 	
