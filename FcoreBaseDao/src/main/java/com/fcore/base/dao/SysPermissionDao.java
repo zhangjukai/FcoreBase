@@ -1,5 +1,8 @@
 package com.fcore.base.dao;
 
+import java.util.List;
+import java.util.Map;
+
 import com.fcore.base.entity.SysPermission;
 
 /**   
@@ -13,4 +16,13 @@ import com.fcore.base.entity.SysPermission;
 */
 public interface SysPermissionDao extends BaseDao<SysPermission,Long>{
 	
+	public List<Map<String, Object>> getPreForTree(SysPermission sysPermission);
+
+	public List<SysPermission> getByValue(SysPermission sysPermission);
+
+	public List<SysPermission> getListByParents(long id);
+
+	public List<SysPermission> getListByUserId(Long userId);
+
+	public List<SysPermission> getMenuByUserId(Long userId);
 }

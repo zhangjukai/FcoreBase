@@ -51,7 +51,7 @@
 			<if test="value != null and value != ''">
 			,value = #{value}
 			</if>
-			<if test="href != null and href != ''">
+			<if test="href != null">
 			,href = #{href}
 			</if>
 			<if test="parentId != null and parentId >0">
@@ -135,5 +135,45 @@
 		      and orderCode=#{orderCode}
 	        </if>
 		</where>
+	</select>
+	<select id="getPreForTree" parameterType="com.fcore.base.entity.SysPermission" resultType="java.util.HashMap">
+		select id,parentId as pId,name,'true' as open,isLast from sys_permission where isDelete = 0
+		<!-- <if test="isLast != null and  ">
+	    	 and isLast=#{isLast} 
+        </if> -->
+	</select>
+	
+	<select id="getByValue" resultMap="result_SysPermissionMap" parameterType="com.fcore.base.entity.SysPermission">
+		select <include refid="Base_Column_List"/> from sys_permission where isDelete = 0
+		<if test="id != null and id != '' ">
+	       and id != #{id}
+        </if>
+		<if test="value != null and value != '' ">
+	      and value=#{value}
+        </if>
+	</select>
+	
+	
+	<select id="getListByParents" parameterType="long" resultMap="result_SysPermissionMap">
+		select  <include refid="Base_Column_List"/>  from sys_permission where isDelete = 0
+		and (parentIds like CONCAT('','/'+#{id},'%')  or parentIds like CONCAT('%','/'+#{id}+'/','%') )
+	</select>
+	
+	<select id="getListByUserId" parameterType="long" resultMap="result_SysPermissionMap">
+		select distinct a.id,a.name,a.value,a.href,a.parentId,a.flag,a.createUserId,a.createTime,a.isDelete,a.parentIds
+    	from sys_permission a
+    	left join sys_role_per b on (a.id = b.sysPerId )
+    	left join sys_role c on (b.sysRoleId = c.id and c.isDelete = 1)
+    	left join sys_user_role d on (c.id = d.sysRoleId )
+    	where a.isDelete = 0 and d.sysUserId = #{userId}
+	</select>
+	<select id="getMenuByUserId" parameterType="long" resultMap="result_SysPermissionMap">
+		select distinct a.id,a.name,a.value,a.href,a.parentId,a.flag,a.isDelete,a.parentIds
+    	from sys_permission a
+    	left join sys_role_per b on (a.id = b.sysPerId )
+    	left join sys_role c on (b.sysRoleId = c.id and c.isDelete = 1)
+    	left join sys_user_role d on (c.id = d.sysRoleId )
+    	where a.isDelete = 0 and d.sysUserId = #{userId} and a.flag != 1
+    	order by a.createTime 
 	</select>
 </mapper>
