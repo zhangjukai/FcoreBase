@@ -4,12 +4,18 @@
 <meta charset="UTF-8" />
 <title>列表</title>
 <link th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" rel="stylesheet" media="screen"></link>
-<link th:href="@{/resource/css/simplePagination.css}" rel="stylesheet" media="screen"></link>
+<link th:href="@{/webjars/zTree/3.5.18/css/zTreeStyle/zTreeStyle.css}" rel="stylesheet" media="screen"></link>
+<link th:href="@{/resource/css/sys_common.css}" rel="stylesheet" media="screen"></link>
+<link rel="stylesheet" th:href="@{/resource/plugins/position-validate/css/validationEngine.jquery.css}"/>
 <script type="text/javascript" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
-<script type="text/javascript" th:src="@{/resource/js/jquery.simplePagination.js}"></script>
 <script type="text/javascript" th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/zTree/3.5.18/js/jquery.ztree.core.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/zTree/3.5.18/js/jquery.ztree.excheck.min.js}"></script>
 <script type="text/javascript" th:src="@{/resource/plugins/layer/layer.js}"></script>
-<script type="text/javascript" th:src="@{/resource/js/list.js}"></script>
+<script type="text/javascript" th:src="@{/resource/js/sys_common.js}"></script>
+<script type="text/javascript" th:src="@{/resource/logic-js/sysPermission.js}"></script>
+<script th:src="@{/resource/plugins/position-validate/js/jquery.validationEngine-zh_CN.js}"></script>
+<script th:src="@{/resource/plugins/position-validate/js/jquery.validationEngine.js}"></script>
 <style type="text/css">
 th{text-align: center;}
 tbody{color: #666;}
@@ -18,69 +24,60 @@ html { overflow-x: hidden; overflow-y: auto; }
 </head>
 <body>
 <div class="container-fluid" style="padding: 30px;">
-<form id="searchForm" action="list" method="post" class="form-inline" >
-<input type="hidden" value="" th:value="${pager.pageNumber}" name="pageNumber" id="pageNumber"/>
-<input type="hidden" value="" th:value="${pager.pageCount}" id="pageCount"/>
-<div class="row" style="margin-bottom: 10px;">
-	<div class="col-md-12">
-		<label></label>
-		<input type="text" class="form-control lg-width" placeholder="输入关键字" name="userName" value="" />
-		<button type="submit" class="btn btn-info">查询</button>
-		<a class="btn btn-success" href="javascript:void(0)" onclick="addOrEdit()">添加</a>
+<div class="row padding_left_bot">
+	<a class="btn btn-primary btn-ms"  href="javascript:void(0)" onclick="addPermission()" role="button" title="新增">新增</a>
+	<a class="btn btn-danger btn-ms"  href="javascript:del('${obj.id }');" onclick="delPermission()" role="button" title="删除">删除</a>
+	<a class="btn btn-success btn-ms"  href="javascript:void(0)" onclick="savePermission()" role="button" title="保存">保存</a>
+</div>
+<div class="col-md-4 div_border" >
+	<div class="zTreeDemoBackground left" >
+		<ul id="treeOrg" class="ztree"></ul>
 	</div>
 </div>
-<div class="row">
-<table class="table table-striped table-bordered text-center">
-	<thead>
-        <tr>
-		<th>ID</th>
-		<th>权限名称</th>
-		<th>权限值</th>
-		<th>URL</th>
-		<th>父ID</th>
-		<th>父ID集合</th>
-		<th>最后一级</th>
-		<th>创建人</th>
-		<th>创建时间</th>
-		<th>更新人</th>
-		<th>更新时间</th>
-		<th>删除标记</th>
-		<th>层级编号</th>
-		<th>排序编号</th>
-      	<th>操作</th>
-        </tr>
-    </thead>
-     <tr th:each="obj:${pager.list}">
-			<td th:text="${obj.id}">id</td>
-			<td th:text="${obj.name}">name</td>
-			<td th:text="${obj.value}">value</td>
-			<td th:text="${obj.href}">href</td>
-			<td th:text="${obj.parentId}">parentId</td>
-			<td th:text="${obj.parentIds}">parentIds</td>
-			<td th:text="${obj.isLast}">isLast</td>
-			<td th:text="${obj.createUserId}">createUserId</td>
-			<td th:text="${obj.createTime}">createTime</td>
-			<td th:text="${obj.updateUserId}">updateUserId</td>
-			<td th:text="${obj.updateTime}">updateTime</td>
-			<td th:text="${obj.isDelete}">isDelete</td>
-			<td th:text="${obj.levelCode}">levelCode</td>
-			<td th:text="${obj.orderCode}">orderCode</td>
-		 <td >
-	  		<a class="btn btn-primary btn-xs"  href="javascript:void(0)" onclick="addOrEdit(${obj.id)" role="button" title="编辑">编辑</a>
-	  	    <a class="btn btn-primary btn-xs"  href="javascript:del('${obj.id }');" role="button" title="删除">删除</a>		         	   
-	     </td>
-	</tr>
-     <tr th:if="${pager.totalCount lt 1}">
-		<td colspan="15" class="text-center">暂无数据!!!</td>
-	 </tr>
-</table>
+<div class="col-md-8">
+	<form data="editForm" class="form-horizontal" id="formID">
+			<input type="hidden"  name="id" />
+    		<table class="table table-bordered" >
+        		<tr>
+            		<td  class="text-r" style="width: 15%">权限名称</td>
+            		<td>
+			     		<input type="text" style="width:60%" name="name"  placeholder="请输入权限名称"  class="form-control validate[required,minSize[2],maxSize[6]]"/>
+            		</td>
+        		</tr>
+        		<tr>
+            		<td  class="text-r" style="width: 15%">权限值</td>
+            		<td>
+			     		<input type="text" style="width:60%" name="value"  placeholder="请输入权限值"  class="form-control validate[required,minSize[2],maxSize[10]]" onblur="checkPerValue(this)"/>
+            		</td>
+        		</tr>
+        		<tr>
+            		<td  class="text-r" style="width: 15%">URL</td>
+            		<td>
+			     		<input type="text" style="width:60%" name="href"  placeholder="请输入URL"  class="form-control"/>
+            		</td>
+        		</tr>
+        		<tr style="display: none;">
+            		<td  class="text-r" style="width: 15%">父ID</td>
+            		<td>
+			     		<input type="text" style="width:60%" name="parentId"  placeholder="请输入父ID"  class="form-control" th:value="0"/>
+            		</td>
+      		 	</tr>
+        		<tr>
+            		<td  class="text-r" style="width: 15%">是否最后一级</td>
+            		<td>
+		     			<input type="radio" name="isLast" th:value="0" checked="checked"/> 否 &nbsp;&nbsp;&nbsp;
+		     			<input type="radio" name="isLast" th:value="1" /> 是 &nbsp;&nbsp;&nbsp;
+            		</td>
+        		</tr>
+        		<tr>
+            		<td  class="text-r" style="width: 15%">排序编号</td>
+            		<td>
+			     		<input type="text" style="width:60%" name="orderCode"  placeholder="请输入排序编号"  class="form-control validate[required,custom[number]]"/>
+            		</td>
+        		</tr>
+    		</table>
+   		</form>
 </div>
-</form>
-<div style="height: auto;width: 100%;text-align: right;">
-		<div class="pagination-holder clearfix" >
-	    	<div id="light-pagination" class="pagination" style="margin-right: -23px;"></div>
-	    </div>			
-	</div>
 </div>
 </body>
 </html>

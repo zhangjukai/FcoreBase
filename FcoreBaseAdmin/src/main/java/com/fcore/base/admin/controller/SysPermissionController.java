@@ -1,5 +1,9 @@
 package com.fcore.base.admin.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,6 +24,7 @@ import com.fcore.base.service.SysPermissionService;
 import com.fcore.base.utils.CommUtil;
 import com.fcore.base.utils.DateTimeUtil;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -51,38 +56,42 @@ public class SysPermissionController extends BaseController{
 	
 	@RequestMapping("/save")
 	@ResponseBody
-	public void save(HttpServletResponse response,SysPermission sysPermission){
+	public Map<String, Object> save(HttpServletResponse response,SysPermission sysPermission){
+		Map<String, Object> map = new HashMap<String, Object>();
 		SysUser user = this.getSessionUser();
-		JSONObject object = new JSONObject();
 		if(sysPermission.getId() != null && sysPermission.getId() >0){
 			sysPermission.setUpdateTime(DateTimeUtil.getNowDateStr(DateTimeUtil.yyyy_MM_dd_HH_mm_ss));
 			sysPermission.setUpdateUserId(user.getId());
 			sysPermissionService.update(sysPermission);
-			object.put("state",1);
+			map.put("editType", 2);
 		}else{
 			sysPermission.setCreateTime(DateTimeUtil.getNowDateStr(DateTimeUtil.yyyy_MM_dd_HH_mm_ss));
 			sysPermission.setCreateUserId(user.getId());
-			sysPermission.setIsDelete(1);
-			long id = sysPermissionService.add(sysPermission);
-			object.put("state",1);
+			sysPermission.setIsDelete(0);
+			sysPermission.setLevelCode(1);
+			SysPermission permission = sysPermissionService.getById(sysPermission.getParentId());
+			if(permission!=null){
+				sysPermission.setLevelCode(permission.getLevelCode()+1);
+				if(StringUtils.isNotEmpty(permission.getParentIds())){
+					sysPermission.setParentIds(permission.getParentIds()+"/"+permission.getId());
+				}else {
+					sysPermission.setParentIds("/"+permission.getId());					
+				}
+			}
+			sysPermissionService.add(sysPermission);
+			map.put("editType", 1);
 		}
-		CommUtil.writeJson(response, object.toString());
+		map.put("sysPermission", sysPermission);
+		return map;
 	}
 
 	@RequestMapping("/deleteById")
 	@ResponseBody
-	public void deleteById(HttpServletRequest request,HttpServletResponse response){
-		JSONObject object = new JSONObject();
-		SysUser user = this.getSessionUser();
-		String id = request.getParameter("id");
-		if(StringUtils.isNotBlank(id)){
-			SysPermission sysPermission = sysPermissionService.getById(Long.parseLong(id));
-			sysPermission.setUpdateTime(DateTimeUtil.getNowDateStr(DateTimeUtil.yyyy_MM_dd_HH_mm_ss));
-			sysPermission.setUpdateUserId(user.getId());
-			sysPermission.setIsDelete(2);
-			sysPermissionService.update(sysPermission);
-		}
-		CommUtil.writeJson(response, object.toString());
+	public Map<String, Object> deleteById(long id){
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Long> ids = sysPermissionService.deletePermission(id);
+		map.put("ids", ids);
+		return map;
 	}
 	
 	
@@ -95,5 +104,40 @@ public class SysPermissionController extends BaseController{
 			sysPermission = sysPermissionService.getById(Long.parseLong(id));
 		}
 		return sysPermission;
+	}
+	
+	/**
+	 * 获取树形结构
+	 * @param response
+	 */
+	@RequestMapping("getPreForTree")
+	@ResponseBody
+	public void getPreForTree(HttpServletResponse response){
+		SysPermission sysPermission = new SysPermission();
+		List<Map<String, Object>> maps = sysPermissionService.getPreForTree(sysPermission);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", 0);
+		map.put("name", "权限管理");
+		map.put("Pid", -1);
+		map.put("open", true);
+		maps.add(map);
+		CommUtil.writeJson(response, JSONArray.fromObject(maps).toString());
+	}
+	
+	/**
+	 * 唯一性验证
+	 * @param value
+	 * @param response
+	 */
+	@RequestMapping("checkPerValue")
+	public void checkPerValue(SysPermission permission,HttpServletResponse response) {
+		List<SysPermission> sysPermissions = sysPermissionService.getByValue(permission);
+		boolean flag = true;
+		if(sysPermissions!=null && sysPermissions.size()>0){
+			flag = false;
+		}
+		JSONObject object = new JSONObject();
+		object.put("flag", flag);
+		CommUtil.writeJson(response, object.toString());
 	}
 }
