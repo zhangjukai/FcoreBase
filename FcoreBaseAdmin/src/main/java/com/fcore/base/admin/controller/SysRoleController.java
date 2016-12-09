@@ -1,5 +1,10 @@
 package com.fcore.base.admin.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,12 +19,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fcore.base.admin.bean.CommonConstants;
 import com.fcore.base.bean.Pager;
+import com.fcore.base.entity.SysPermission;
 import com.fcore.base.entity.SysRole;
+import com.fcore.base.entity.SysRolePer;
 import com.fcore.base.entity.SysUser;
+import com.fcore.base.service.SysPermissionService;
+import com.fcore.base.service.SysRolePerService;
 import com.fcore.base.service.SysRoleService;
 import com.fcore.base.utils.CommUtil;
 import com.fcore.base.utils.DateTimeUtil;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 @Controller
@@ -30,6 +40,11 @@ public class SysRoleController extends BaseController{
 
 	@Autowired
 	private SysRoleService sysRoleService;
+	@Autowired
+	private SysRolePerService sysRolePerService;
+	@Autowired
+	private SysPermissionService sysPermissionService;
+	
 	
 	@RequestMapping(value="/list")
 	public String list(Model model,SysRole sysRole) {
@@ -95,5 +110,23 @@ public class SysRoleController extends BaseController{
 			sysRole = sysRoleService.getById(Long.parseLong(id));
 		}
 		return sysRole;
+	}
+	
+	@RequestMapping("getPreTreeForRool")
+	@ResponseBody
+	public void getPreTreeForRool(HttpServletResponse response,Long roleId){
+		SysPermission sysPermission = new SysPermission();
+		List<SysRolePer> sysRolePers = new ArrayList<SysRolePer>();
+		if(roleId!=null){
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("sysRoleId", roleId);
+			sysRolePers = sysRolePerService.getByParams(map);
+		}
+		
+		List<Map<String, Object>> maps = sysPermissionService.getPreForTree(sysPermission);
+		JSONObject object = new JSONObject();
+		object.put("rolePers",  JSONArray.fromObject(sysRolePers));
+		object.put("pers", JSONArray.fromObject(maps));
+		CommUtil.writeJson(response, object.toString());
 	}
 }

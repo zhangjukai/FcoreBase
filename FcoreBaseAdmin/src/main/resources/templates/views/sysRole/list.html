@@ -23,8 +23,8 @@ html { overflow-x: hidden; overflow-y: auto; }
 <input type="hidden" value="" th:value="${pager.pageCount}" id="pageCount"/>
 <div class="row" style="margin-bottom: 10px;">
 	<div class="col-md-12">
-		<label></label>
-		<input type="text" class="form-control lg-width" placeholder="输入关键字" name="userName" value="" />
+		<label>角色名称</label>
+		<input type="text" class="form-control lg-width" placeholder="输入关键字" name="roleName" th:value="${sysRole.roleName}" />
 		<button type="submit" class="btn btn-info">查询</button>
 		<a class="btn btn-success" href="javascript:void(0)" onclick="addOrEdit()">添加</a>
 	</div>
@@ -35,7 +35,6 @@ html { overflow-x: hidden; overflow-y: auto; }
         <tr>
 		<th>序号</th>
 		<th>角色名称</th>
-		<th>角色描述</th>
 		<th>创建时间</th>
       	<th>操作</th>
         </tr>
@@ -43,7 +42,6 @@ html { overflow-x: hidden; overflow-y: auto; }
      <tr th:each="obj,iterStat:${pager.list}">
 			<td th:text="${iterStat.count}">0</td>
 			<td th:text="${obj.roleName}">roleName</td>
-			<td th:text="${obj.description}">description</td>
 			<td th:text="${obj.createTime}">createTime</td>
 		 <td >
 	  		<a class="btn btn-primary btn-xs"  th:onclick="'addOrEdit(\'' +${obj.id}+ '\')'" role="button" title="编辑">编辑</a>
@@ -51,7 +49,7 @@ html { overflow-x: hidden; overflow-y: auto; }
 	     </td>
 	</tr>
      <tr th:if="${pager.totalCount lt 1}">
-		<td colspan="5" class="text-center">暂无数据!!!</td>
+		<td colspan="4" class="text-center">暂无数据!!!</td>
 	 </tr>
 </table>
 </div>
