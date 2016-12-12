@@ -29,7 +29,16 @@
 	<!-- 分页查询列表 -->
 	<select id="getList"  resultMap="result_SysDictMap" parameterType="com.fcore.base.entity.SysDict">
     	select <include refid="Base_Column_List"/> from sys_dict
-    	where isDelete = 1
+    	where isDelete = 0
+    	<if test="name != null and name != ''">
+		and name like CONCAT('%',#{name},'%') 
+		</if>
+		<if test="key != null and key != ''">
+		and key like CONCAT('%',#{key},'%') 
+		</if>
+		<if test="value != null and value != ''">
+		and value like CONCAT('%',#{value},'%') 
+		</if>
     	order by id desc 
     	<if test="pageSize!=null and pageSize>0 and pageNumber!=null and pageNumber>0">
     		limit ${(pageNumber-1)*pageSize},#{pageSize}
@@ -37,7 +46,16 @@
     </select>
     <select id="getCount" parameterType="com.fcore.base.entity.SysDict" resultType="int">
    		 select count(1) from sys_dict
-   		 where isDelete = 1
+   		 where isDelete = 0
+    	<if test="name != null and name != ''">
+		and name like CONCAT('%',#{name},'%') 
+		</if>
+		<if test="key != null and key != ''">
+		and key like CONCAT('%',#{key},'%') 
+		</if>
+		<if test="value != null and value != ''">
+		and value like CONCAT('%',#{value},'%') 
+		</if>
     </select>
 
 	
@@ -81,7 +99,7 @@
 	
 	<!-- 根据条件查询 -->
 	<select id="getByParams" resultMap="result_SysDictMap" parameterType="java.util.Map">
-		select <include refid="Base_Column_List"/> from sys_dict where isDelete = 1
+		select <include refid="Base_Column_List"/> from sys_dict where isDelete = 0
 		<if test="id != null and id != '' ">
 	      and id=#{id}
         </if>
