@@ -1,5 +1,8 @@
 package com.fcore.base.admin.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,6 +20,7 @@ import com.fcore.base.admin.bean.CommonConstants;
 import com.fcore.base.bean.Pager;
 import com.fcore.base.entity.SysDict;
 import com.fcore.base.entity.SysUser;
+import com.fcore.base.service.RedisService;
 import com.fcore.base.service.SysDictService;
 import com.fcore.base.utils.CommUtil;
 import com.fcore.base.utils.DateTimeUtil;
@@ -32,6 +36,9 @@ public class SysDictController extends BaseController{
 	@Autowired
 	private SysDictService sysDictService;
 	
+	@Autowired
+	private RedisService redisService; 
+	
 	@RequestMapping(value="/list")
 	public String list(Model model,SysDict sysDict) {
 		Pager pager = sysDictService.findForPager(sysDict);
@@ -44,6 +51,7 @@ public class SysDictController extends BaseController{
 	public String edit(Model model,SysDict sysDict) {
 		if(sysDict.getId()!=null && sysDict.getId()>0){
 			sysDict = sysDictService.getById(sysDict.getId());
+			
 		}
 		model.addAttribute("sysDict", sysDict);
 		return "/views/sysDict/edit";
@@ -63,10 +71,17 @@ public class SysDictController extends BaseController{
 		}else{
 			sysDict.setCreateTime(DateTimeUtil.getNowDateStr(DateTimeUtil.yyyy_MM_dd_HH_mm_ss));
 			sysDict.setCreateUserId(user.getId());
-			sysDict.setIsDelete(1);
 			long id = sysDictService.add(sysDict);
 			object.put("state",1);
 		}
+		
+		//添加到缓存中
+		if(sysDict.getIsMoreLevel()!=1){
+			JSONObject value = new JSONObject();
+			value.put("value", sysDict.getValue());
+			redisService.set(sysDict.getKey(), value);
+		}
+		
 		CommUtil.writeJson(response, object.toString());
 	}
 
@@ -80,8 +95,11 @@ public class SysDictController extends BaseController{
 			SysDict sysDict = sysDictService.getById(Long.parseLong(id));
 			sysDict.setUpdateTime(DateTimeUtil.getNowDateStr(DateTimeUtil.yyyy_MM_dd_HH_mm_ss));
 			sysDict.setUpdateUserId(user.getId());
-			sysDict.setIsDelete(2);
+			sysDict.setIsDelete(1);
 			sysDictService.update(sysDict);
+			
+			//删除缓存中的数据
+			redisService.remove(sysDict.getKey());
 		}
 		CommUtil.writeJson(response, object.toString());
 	}
@@ -96,5 +114,14 @@ public class SysDictController extends BaseController{
 			sysDict = sysDictService.getById(Long.parseLong(id));
 		}
 		return sysDict;
+	}
+	
+	@RequestMapping("/getByKey")
+	@ResponseBody
+	public Map<String, Object> getByKey(String key){
+		Map<String, Object> result = new HashMap<String,Object>();
+		Object data = redisService.get(key);
+		result.put("data", data);
+		return result;
 	}
 }
