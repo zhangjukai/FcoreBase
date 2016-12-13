@@ -72,13 +72,13 @@ public class SysRoleController extends BaseController{
 		if(sysRole.getId() != null && sysRole.getId() >0){
 			sysRole.setUpdateTime(DateTimeUtil.getNowDateStr(DateTimeUtil.yyyy_MM_dd_HH_mm_ss));
 			sysRole.setUpdateUserId(user.getId());
-			sysRoleService.update(sysRole);
+			sysRoleService.updateRole(sysRole);
 			object.put("state",1);
 		}else{
 			sysRole.setCreateTime(DateTimeUtil.getNowDateStr(DateTimeUtil.yyyy_MM_dd_HH_mm_ss));
 			sysRole.setCreateUserId(user.getId());
-			sysRole.setIsDelete(1);
-			long id = sysRoleService.add(sysRole);
+			sysRole.setIsDelete(0);
+			long id = sysRoleService.addRole(sysRole);
 			object.put("state",1);
 		}
 		CommUtil.writeJson(response, object.toString());
@@ -94,7 +94,7 @@ public class SysRoleController extends BaseController{
 			SysRole sysRole = sysRoleService.getById(Long.parseLong(id));
 			sysRole.setUpdateTime(DateTimeUtil.getNowDateStr(DateTimeUtil.yyyy_MM_dd_HH_mm_ss));
 			sysRole.setUpdateUserId(user.getId());
-			sysRole.setIsDelete(2);
+			sysRole.setIsDelete(1);
 			sysRoleService.update(sysRole);
 		}
 		CommUtil.writeJson(response, object.toString());
@@ -129,4 +129,15 @@ public class SysRoleController extends BaseController{
 		object.put("pers", JSONArray.fromObject(maps));
 		CommUtil.writeJson(response, object.toString());
 	}
+	
+	@RequestMapping("checkRoleName")
+	@ResponseBody
+	public Map<String, Object> checkRoleName(SysRole role){
+		Map<String, Object> result = new HashMap<String,Object>();
+		Boolean flag = sysRoleService.checkRoleName(role);
+		result.put("flag", flag);
+		return result;
+	}
+	
+	
 }

@@ -106,4 +106,19 @@
 	        </if>
 		</where>
 	</select>
+	<select id="checkRoleName" resultMap="result_SysRoleMap" parameterType="com.fcore.base.entity.SysRole">
+		select <include refid="Base_Column_List"/> from sys_role where isDelete = 0
+		<if test="id != null and id != '' ">
+	       and id != #{id}
+        </if>
+		<if test="roleName != null and roleName != '' ">
+	      and roleName=#{roleName}
+        </if>
+	</select>
+	<select id="getRolesForUser" resultMap="result_SysRoleMap" parameterType="long">
+		select a.id,a.roleName,case when ISNULL(b.sysUserId) then 0 else 1 end as isChecked 
+		from sys_role a
+		left join sys_user_role b on (a.id = b.sysRoleId and b.sysUserId = #{userId})
+		where a.isDelete = 0 
+	</select>
 </mapper>

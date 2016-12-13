@@ -33,7 +33,6 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-test</artifactId>
 	</dependency>
-
 	<!-- mysql连接 -->
 	<dependency>
 		<groupId>mysql</groupId>
@@ -61,11 +60,11 @@
 	    <version>2.4</version>
 	    <classifier>jdk15</classifier>
 	</dependency>
-	<!-- <dependency>
-		<groupId>fcoreCodeGenerate</groupId>
-		<artifactId>fcore.code.generate</artifactId>
+	<dependency>
+		<groupId>fcore.code.generate</groupId>
+		<artifactId>FcoreBaseCodeGenerate</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-	</dependency> --> 
+	</dependency> 
   </dependencies>
   <build>
     <finalName>FcoreBaseDao</finalName>

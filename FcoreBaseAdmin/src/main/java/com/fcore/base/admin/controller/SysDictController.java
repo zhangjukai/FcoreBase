@@ -1,6 +1,7 @@
 package com.fcore.base.admin.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,12 +19,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fcore.base.admin.bean.CommonConstants;
 import com.fcore.base.bean.Pager;
+import com.fcore.base.entity.SysChildDict;
 import com.fcore.base.entity.SysDict;
 import com.fcore.base.entity.SysUser;
 import com.fcore.base.service.RedisService;
+import com.fcore.base.service.SysChildDictService;
 import com.fcore.base.service.SysDictService;
 import com.fcore.base.utils.CommUtil;
 import com.fcore.base.utils.DateTimeUtil;
+
+import net.sf.json.JSONArray;
 
 
 
@@ -38,6 +43,9 @@ public class SysDictController extends BaseController{
 	
 	@Autowired
 	private RedisService redisService; 
+	
+	@Autowired
+	private SysChildDictService childDictService; 
 	
 	@RequestMapping(value="/list")
 	public String list(Model model,SysDict sysDict) {
@@ -71,6 +79,7 @@ public class SysDictController extends BaseController{
 		}else{
 			sysDict.setCreateTime(DateTimeUtil.getNowDateStr(DateTimeUtil.yyyy_MM_dd_HH_mm_ss));
 			sysDict.setCreateUserId(user.getId());
+			sysDict.setIsDelete(0);
 			long id = sysDictService.add(sysDict);
 			object.put("state",1);
 		}
@@ -124,4 +133,44 @@ public class SysDictController extends BaseController{
 		result.put("data", data);
 		return result;
 	}
+	
+	@RequestMapping(value="/editChild")
+	public String editChild(Model model,SysChildDict childDict) {
+		if(childDict.getId()!=null && childDict.getId()>0){
+			childDict = childDictService.getById(childDict.getId());
+		}
+		model.addAttribute("childDict", childDict);
+		return "/views/sysDict/editChild";
+	}
+	
+	@RequestMapping("/saveChild")
+	@ResponseBody
+	public void saveChild(HttpServletResponse response,SysChildDict childDict){
+		SysUser user = this.getSessionUser();
+		JSONObject object = new JSONObject();
+		if(childDict.getId() != null && childDict.getId() >0){
+			childDict.setUpdateTime(DateTimeUtil.getNowDateStr(DateTimeUtil.yyyy_MM_dd_HH_mm_ss));
+			childDict.setUpdateUserId(user.getId());
+			childDictService.update(childDict);
+			object.put("state",1);
+		}else{
+			childDict.setCreateTime(DateTimeUtil.getNowDateStr(DateTimeUtil.yyyy_MM_dd_HH_mm_ss));
+			childDict.setCreateUserId(user.getId());
+			childDict.setIsDelete(0);
+			long id = childDictService.add(childDict);
+			object.put("state",1);
+		}
+		
+		//更新redis
+		SysDict dict = sysDictService.getById(childDict.getSysDictId());
+		Map<String, Object> param = new HashMap<String,Object>();
+		param.put("sysDictId", childDict.getSysDictId());
+		JSONObject value = new JSONObject();
+		List<SysChildDict> list = childDictService.getByParams(param);
+		value.put("value", JSONArray.fromObject(list));
+		redisService.set(dict.getKey(), value);
+		
+		CommUtil.writeJson(response, object.toString());
+	}
+
 }

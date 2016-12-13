@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fcore.base.admin.bean.CommonConstants;
 import com.fcore.base.admin.config.UserRealm;
 import com.fcore.base.bean.Pager;
+import com.fcore.base.entity.SysRole;
 import com.fcore.base.entity.SysUser;
+import com.fcore.base.service.SysRoleService;
 import com.fcore.base.service.SysUserService;
 import com.fcore.base.utils.CommUtil;
 import com.fcore.base.utils.DateTimeUtil;
@@ -35,6 +37,8 @@ public class SysUserController extends BaseController{
 
 	@Autowired
 	private SysUserService sysUserService;
+	@Autowired
+	private SysRoleService sysRoleService;
 	@Autowired
 	private UserRealm userRealm; 
 	
@@ -64,15 +68,15 @@ public class SysUserController extends BaseController{
 		if(sysUser.getId() != null && sysUser.getId() >0){
 			sysUser.setUpdateTime(DateTimeUtil.getNowDateStr(DateTimeUtil.yyyy_MM_dd_HH_mm_ss));
 			sysUser.setUpdateUserId(user.getId());
-			sysUserService.update(sysUser);
+			sysUserService.updateUser(sysUser);
 			object.put("state",1);
 		}else{
 			sysUser.setCreateTime(DateTimeUtil.getNowDateStr(DateTimeUtil.yyyy_MM_dd_HH_mm_ss));
 			sysUser.setCreateUserId(user.getId());
-			sysUser.setIsDelete(1);
+			sysUser.setIsDelete(0);
 			sysUser.setSalt(UUID.randomUUID().toString());
 			sysUser.setPassword(userRealm.shiroMd5(sysUser.getPassword(), sysUser.getSalt(), UserRealm.hashIterations));
-			long id = sysUserService.add(sysUser);
+			long id = sysUserService.addUser(sysUser);
 			object.put("state",1);
 		}
 		CommUtil.writeJson(response, object.toString());
@@ -88,7 +92,7 @@ public class SysUserController extends BaseController{
 			SysUser sysUser = sysUserService.getById(Long.parseLong(id));
 			sysUser.setUpdateTime(DateTimeUtil.getNowDateStr(DateTimeUtil.yyyy_MM_dd_HH_mm_ss));
 			sysUser.setUpdateUserId(user.getId());
-			sysUser.setIsDelete(2);
+			sysUser.setIsDelete(1);
 			sysUserService.update(sysUser);
 			object.put("state", 1);
 			object.put("msg", CommonConstants.DELETE_SUC_INFO);
@@ -122,5 +126,19 @@ public class SysUserController extends BaseController{
 		object.put("state", count);
 		object.put("msg", CommonConstants.CHECK_LOGINNAME_MSG);
 		CommUtil.writeJson(response, object.toString());
+	}
+	
+	@RequestMapping("/getRoles")
+	@ResponseBody
+	public Map<String, Object> getRoles(Long userId){
+		Map<String, Object> result = new HashMap<String, Object>();
+		List<SysRole> roles = null;
+		if(userId==null){
+			roles = sysRoleService.getByParams(new HashMap<String, Object>());
+		}else{
+			roles = sysRoleService.getRolesForUser(userId);
+		}
+		result.put("roles", roles);
+		return result;
 	}
 }

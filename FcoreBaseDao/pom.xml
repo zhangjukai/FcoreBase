@@ -33,7 +33,6 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-test</artifactId>
 	</dependency>
-
 	<!-- mysql连接 -->
 	<dependency>
 		<groupId>mysql</groupId>

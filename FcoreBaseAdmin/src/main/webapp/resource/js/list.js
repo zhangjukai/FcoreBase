@@ -13,9 +13,9 @@ function addOrEdit(id) {
 		yes : function(index, layero) {
 			var iframeWin = window[layero.find('iframe')[0]['name']];
 			iframeWin.save(index);
-			setTimeout(function() {
+			/*setTimeout(function() {
 				$('#searchForm').submit();
-			}, 1000);
+			}, 1000);*/
 		},
 		cancel : function(index) {
 		}

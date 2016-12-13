@@ -29,7 +29,7 @@ html { overflow-x: hidden; overflow-y: auto; }
 					<tr>
 						<td class="text-r" style="width: 15%">角色名称</td>
 						<td>
-							<input type="text" style="width: 90%" name="roleName" placeholder="请输入角色名称" th:value="${sysRole.roleName}" class="form-control validate[required,maxSize[10]]" />
+							<input type="text" style="width: 90%" name="roleName" placeholder="请输入角色名称" th:value="${sysRole.roleName}" onblur="checkValue(this)" class="form-control validate[required,maxSize[10]]" />
 						</td>
 						<td>
 							权限设置
@@ -38,7 +38,7 @@ html { overflow-x: hidden; overflow-y: auto; }
 					<tr>
 						<td class="text-r" style="width: 15%">角色描述</td>
 						<td style="width: 50%">
-							<textarea rows="10" style="width: 90%" name="description" th:value="${sysRole.description}"></textarea>
+							<textarea rows="10" style="width: 90%" name="description" th:value="${sysRole.description}" th:inline="text">[[${sysRole.description}]]</textarea>
 						</td>
 						<td>
 							<div class="zTreeDemoBackground left" >

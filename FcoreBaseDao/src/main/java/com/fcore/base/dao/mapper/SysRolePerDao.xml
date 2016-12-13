@@ -29,7 +29,7 @@
 	<!-- 分页查询列表 -->
 	<select id="getList"  resultMap="result_SysRolePerMap" parameterType="com.fcore.base.entity.SysRolePer">
     	select <include refid="Base_Column_List"/> from sys_role_per
-    	where isDelete = 1
+    	where isDelete = 0
     	order by sysRoleId desc 
     	<if test="pageSize!=null and pageSize>0 and pageNumber!=null and pageNumber>0">
     		limit ${(pageNumber-1)*pageSize},#{pageSize}
@@ -37,7 +37,7 @@
     </select>
     <select id="getCount" parameterType="com.fcore.base.entity.SysRolePer" resultType="int">
    		 select count(1) from sys_role_per
-   		 where isDelete = 1
+   		 where isDelete = 0
     </select>
 
 	
@@ -63,5 +63,8 @@
 		      and sysPerId=#{sysPerId}
 	        </if>
 		</where>
+	</select>
+	<select id="deleteByRoleId" parameterType="long">
+		delete from sys_role_per where sysRoleId=#{roleId}
 	</select>
 </mapper>

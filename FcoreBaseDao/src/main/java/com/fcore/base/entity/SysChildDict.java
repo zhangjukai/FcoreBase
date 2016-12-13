@@ -29,7 +29,7 @@ public class SysChildDict extends BaseEntity implements Serializable{
 	*@Fields value :value值
 	*/
 	private String value;
-		public void setSysDictId(Long sysDictId){
+	public void setSysDictId(Long sysDictId){
 		this.sysDictId=sysDictId;
 	}
 	

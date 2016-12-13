@@ -10,8 +10,9 @@
 <script th:src="@{/resource/plugins/position-validate/js/jquery.validationEngine-zh_CN.js}"></script>
 <script th:src="@{/resource/plugins/position-validate/js/jquery.validationEngine.js}"></script>
 <script type="text/javascript" th:src="@{/resource/plugins/layer/layer.js}"></script>
+<script type="text/javascript" th:src="@{/resource/js/sys_common.js}"></script>
 <script type="text/javascript" th:src="@{/resource/js/edit.js}"></script>
-<script type="text/javascript" th:src="@{/resource/logic-js/sysUser.js}"></script>
+<script type="text/javascript" th:src="@{/resource/logic-js/sys_user.js}"></script>
 <style type="text/css">
 html { overflow-x: hidden; overflow-y: auto; }
 </style>
@@ -25,31 +26,42 @@ html { overflow-x: hidden; overflow-y: auto; }
 		        <tr>
 		       		<td  class="text-r" style="width: 15%">用户名称</td>
 		       		<td>
-		   				<input type="text" style="width:20%" name="userName"  placeholder="请输入用户名称" th:value="${sysUser.userName}" class="form-control validate[required,maxSize[10]]"/>
+		   				<input type="text" style="width:80%" name="userName"  placeholder="请输入用户名称" th:value="${sysUser.userName}" class="form-control validate[required,maxSize[10]]"/>
 		       		</td>
+		       		<td>角色选择</td>
 		        </tr>
 		        <tr>
 		       		<td  class="text-r" style="width: 15%">登录名称</td>
 		       		<td>
-		   				<input type="text" style="width:20%" name="loginName"  placeholder="请输入登录名称" th:value="${sysUser.loginName}" th:onblur="'checkLoginName(this)'" class="form-control validate[required,minSize[3],maxSize[18]]"/>
+		   				<input type="text" style="width:80%" name="loginName"  placeholder="请输入登录名称" th:value="${sysUser.loginName}" th:onblur="'checkLoginName(this)'" class="form-control validate[required,minSize[3],maxSize[18]]"/>
+		       		</td>
+		       		<td rowspan="4" th:if="${sysUser.id==null}">
+		       			<select id="roleIds" name="roleIds"  multiple="multiple" class="form-control" style="height: 150px;width: 260px;">
+				     		
+				     	</select>
+		       		</td>
+		       		<td rowspan="2" th:if="${sysUser.id!=null}">
+		       			<select id="roleIds" name="roleIds"  multiple="multiple" class="form-control" style="height: 100px;width: 260px;">
+				     		
+				     	</select>
 		       		</td>
 		        </tr>
 		        <tr>
 		       		<td  class="text-r" style="width: 15%">手机号码</td>
 		       		<td>
-		   				<input type="text" style="width:20%" name="mobile"  placeholder="请输入手机号码" th:value="${sysUser.mobile}" class="form-control validate[required,custom[mobile]]"/>
+		   				<input type="text" style="width:80%" name="mobile"  placeholder="请输入手机号码" th:value="${sysUser.mobile}" class="form-control validate[required,custom[mobile]]"/>
 		       		</td>
 		        </tr>
 		        <tr th:if="${sysUser.id==null}">
 		            <td  class="text-r" style="width: 15%">登录密码</td>
 		            <td>
-			     		<input type="password" style="width:20%" name="password" id="password"  placeholder="请输入登录密码"  class="form-control validate[required,minSize[6],maxSize[18],custom[passWord]]"/>
+			     		<input type="password" style="width:80%" name="password" id="password"  placeholder="请输入登录密码"  class="form-control validate[required,minSize[6],maxSize[18],custom[passWord]]"/>
 			        </td>
 		        </tr>
 		        <tr th:if="${sysUser.id==null}">
 		            <td  class="text-r" style="width: 15%">确认密码</td>
 		            <td>
-			     		<input type="password" style="width:20%" name="pwd"  placeholder="请输入登录密码"  class="form-control validate[required,equals[password]]]"/>
+			     		<input type="password" style="width:80%" name="pwd"  placeholder="请输入登录密码"  class="form-control validate[required,equals[password]]]"/>
 			        </td>
 		        </tr>
 		    </table>

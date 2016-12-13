@@ -20,4 +20,8 @@ public interface SysUserService extends BaseService<SysUser,Long>{
 	 */
 	public int checkLoginName(Map<String, Object> map);
 
+	public long addUser(SysUser sysUser);
+
+	public void updateUser(SysUser sysUser);
+
 }

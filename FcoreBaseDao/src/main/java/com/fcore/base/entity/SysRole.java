@@ -21,7 +21,20 @@ public class SysRole extends BaseEntity implements Serializable{
 	*@Fields description :角色描述
 	*/
 	private String description;
-		public void setRoleName(String roleName){
+	
+	private String perIds;
+	
+	private int isChecked;
+	
+	public int getIsChecked() {
+		return isChecked;
+	}
+
+	public void setIsChecked(int isChecked) {
+		this.isChecked = isChecked;
+	}
+
+	public void setRoleName(String roleName){
 		this.roleName=roleName;
 	}
 	
@@ -35,5 +48,14 @@ public class SysRole extends BaseEntity implements Serializable{
 	public String getDescription(){
 		return description;
 	}
+
+	public String getPerIds() {
+		return perIds;
+	}
+
+	public void setPerIds(String perIds) {
+		this.perIds = perIds;
+	}
+	
 }
 

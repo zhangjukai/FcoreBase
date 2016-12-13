@@ -3,6 +3,7 @@ $(function(){
 	var key = $("input[name='key']").val();
 	var isMoreLevel = $("input[name='isMoreLevel']:checked").val();
 	if(id!='' && isMoreLevel==1){
+		$("#chiledDiv").show();
 		var param = {};
 		param.key = key;
 		doAjax("getByKey",param,function(data){
@@ -26,3 +27,24 @@ $(function(){
 		});
 	}
 })
+function addChild(id) {
+	var dictId = $("input[name='id']").val();
+	var url = "editChild?sysDictId="+dictId;
+	if (id != null) {
+		url = url + "&id=" + id;
+	}
+	parent.layer.open({
+		content : url, // iframe的url
+		type : 2,
+		title : '添加/修改',
+		shade : 0.8,
+		area : [ '100%', '100%' ],
+		btn : [ '确定', '取消' ],
+		yes : function(index, layero) {
+			var iframeWin = window[layero.find('iframe')[0]['name']];
+			iframeWin.save(index);
+		},
+		cancel : function(index) {
+		}
+	});
+}

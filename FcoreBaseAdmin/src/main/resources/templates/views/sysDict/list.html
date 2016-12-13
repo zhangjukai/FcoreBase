@@ -24,11 +24,11 @@ html { overflow-x: hidden; overflow-y: auto; }
 <div class="row" style="margin-bottom: 10px;">
 	<div class="col-md-12">
 		<label>名称：</label>
-		<input type="text" class="form-control lg-width" placeholder="输入关键字" name="name" value="${sysDict.name}" />
+		<input type="text" class="form-control lg-width" placeholder="输入关键字" name="name" th:value="${sysDict.name}" />
 		<label>key值：</label>
-		<input type="text" class="form-control lg-width" placeholder="输入关键字" name="key" value="${sysDict.key}" />
+		<input type="text" class="form-control lg-width" placeholder="输入关键字" name="key" th:value="${sysDict.key}" />
 		<label>value值：</label>
-		<input type="text" class="form-control lg-width" placeholder="输入关键字" name="value" value="${sysDict.value}" />
+		<input type="text" class="form-control lg-width" placeholder="输入关键字" name="value" th:value="${sysDict.value}" />
 		<button type="submit" class="btn btn-info">查询</button>
 		<a class="btn btn-success" href="javascript:void(0)" onclick="addOrEdit()">添加</a>
 	</div>
@@ -40,7 +40,6 @@ html { overflow-x: hidden; overflow-y: auto; }
 		<th>序号</th>
 		<th>名称</th>
 		<th>key值</th>
-		<th>value值</th>
 		<th>创建时间</th>
       	<th>操作</th>
         </tr>
@@ -49,15 +48,14 @@ html { overflow-x: hidden; overflow-y: auto; }
 		<td th:text="${iterStat.count}">0</td>
 		<td th:text="${obj.name}">name</td>
 		<td th:text="${obj.key}">key</td>
-		<td th:text="${obj.value}">value</td>
 		<td th:text="${obj.createTime}">createTime</td>
 		<td >
-	  		<a class="btn btn-primary btn-xs"   th:onclick="'addOrEdit(\''+${obj.id}+'\')" role="button" title="编辑">编辑</a>
-	  	    <a class="btn btn-primary btn-xs" th:onclick="'del(\'' +${obj.id }+ '\')'" href="javascript:del('${obj.id }');" role="button" title="删除">删除</a>
+	  		<a class="btn btn-primary btn-xs"  th:onclick="'addOrEdit(\'' +${obj.id}+ '\')'" role="button" title="编辑">编辑</a>
+	  	    <a class="btn btn-primary btn-xs"  th:onclick="'del(\'' +${obj.id }+ '\')'" role="button" title="删除">删除</a>
 	    </td>
 	</tr>
      <tr th:if="${pager.totalCount lt 1}">
-		<td colspan="6" class="text-center">暂无数据!!!</td>
+		<td colspan="5" class="text-center">暂无数据!!!</td>
 	 </tr>
 </table>
 </div>

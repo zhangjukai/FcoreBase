@@ -12,5 +12,7 @@ import com.fcore.base.entity.SysRolePer;
 * create by codeFactory
 */
 public interface SysRolePerDao extends BaseDao<SysRolePer,Long>{
+
+	void deleteByRoleId(Long roleId);
 	
 }

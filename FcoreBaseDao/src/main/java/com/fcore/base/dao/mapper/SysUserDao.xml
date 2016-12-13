@@ -31,7 +31,7 @@
 		<!-- 分页查询列表 -->
 	<select id="getList"  resultMap="result_SysUserMap" parameterType="com.fcore.base.entity.SysUser">
     	select <include refid="Base_Column_List"/> from sys_user
-    	where isDelete = 1
+    	where isDelete = 0
     	<if test="userName != null and userName != '' ">
 	      and userName like CONCAT('%',#{userName},'%') 
         </if>
@@ -45,7 +45,7 @@
     </select>
     <select id="getCount" parameterType="com.fcore.base.entity.SysUser" resultType="int">
    		select count(1) from sys_user
-   		where isDelete = 1
+   		where isDelete = 0
     	<if test="userName != null and userName != '' ">
 	      and userName like CONCAT('%',#{userName},'%') 
         </if>
@@ -98,7 +98,7 @@
 	<!-- 根据条件查询 -->
 	<select id="getByParams" resultMap="result_SysUserMap" parameterType="java.util.Map">
 		select <include refid="Base_Column_List"/> from sys_user
-		where isDelete = 1
+		where isDelete = 0
     	<if test="userName != null and userName != '' ">
 	      and userName = #{userName} 
         </if>
@@ -108,7 +108,7 @@
 	</select>
 	<select id="checkLoginName" resultType="int" parameterType="java.util.Map">
 		select count(1) from sys_user
-		where isDelete = 1
+		where isDelete = 0
     	<if test="id!=null and id>0">
     		and id != #{id}
     	</if>

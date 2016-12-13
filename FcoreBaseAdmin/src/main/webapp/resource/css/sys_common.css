@@ -2,8 +2,11 @@
 	border: 1px solid #E8E8E8
 }
 
-.center {
+.padding {
 	padding: 15px;
+}
+.left {
+	text-align: left;
 }
 .padding_5 {
 	padding: 5px;

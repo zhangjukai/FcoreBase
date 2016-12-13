@@ -12,5 +12,7 @@ import com.fcore.base.entity.SysUserRole;
 * create by codeFactory
 */
 public interface SysUserRoleDao extends BaseDao<SysUserRole,Long>{
+
+	void deleteUserRoleByUserId(Long userId);
 	
 }

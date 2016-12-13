@@ -1,5 +1,7 @@
 package com.fcore.base.dao;
 
+import java.util.List;
+
 import com.fcore.base.entity.SysRole;
 
 /**   
@@ -12,5 +14,9 @@ import com.fcore.base.entity.SysRole;
 * create by codeFactory
 */
 public interface SysRoleDao extends BaseDao<SysRole,Long>{
+
+	List<SysRole> checkRoleName(SysRole role);
+
+	List<SysRole> getRolesForUser(Long userId);
 	
 }

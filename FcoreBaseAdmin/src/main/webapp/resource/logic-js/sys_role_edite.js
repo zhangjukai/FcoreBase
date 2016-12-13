@@ -32,21 +32,48 @@ $(document).ready(function(){
 		 treeObj.checkNode(node, true, true);
 	 }
 });
-function save(){
-	alert("aaaaa")
-}
-function saveUserRole(index){
+function save(parentIndex){
+	var index = parent.layer.load(3, {shade: [0.5,'#B3B3B3']});
+	if(!jQuery('#saveObjForm').validationEngine('validate')){
+		parent.layer.close(index);
+		return false;	
+	}
+	var url = "save";
+	var params = {}
+	var id = $("input[name='id']").val();
+	var roleName = $("input[name='roleName']").val();
+	var description = $("textarea[name='description']").val();
 	var nodes = treeObj.getCheckedNodes(true);
 	var perIds = [];
-	 for (var i = 0; i < nodes.length; i++) {
+	for (var i = 0; i < nodes.length; i++) {
 		 perIds.push(nodes[i].id);
-	 }
-	var url = "saveRoolPer";
-	var data = {};
-	data.roleId = $("input[name='id']").val();
-	data.perIds = perIds.toString();
- 	doAjax(url,data,function(data){
- 		parent.layer.msg("权限设置成功!");
- 		parent.layer.close(index);
- 	});
+	}
+	if(id!=''){
+		params.id = id;
+	}
+	alert(description)
+	params.description = description;
+	params.roleName = roleName;
+	params.perIds = perIds.toString();
+	
+	$.post(url,params,function(data){
+		parent.layer.close(index);
+		parent.layer.msg("保存成功！");
+		parent.layer.close(parentIndex);
+	 },'json');
+}
+function checkValue(obj){
+	var value = $(obj).val();
+	if(value!=null  && value!=""){
+		var data = {};
+		data.id = $("input[name='id']").val();
+		data.roleName = value;
+		doAjax("checkRoleName",data,function(data){
+			var data = eval(data);
+			if(data.flag){
+				parent.layer.alert("角色名称："+value+"已经存在！！");
+				$(obj).val("");
+			}
+		})
+	}
 }

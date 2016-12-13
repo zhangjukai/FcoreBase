@@ -21,11 +21,14 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		
 		<dependency>
-			<groupId>org.freemarker</groupId>
-			<artifactId>freemarker</artifactId>
-			<version>2.3.23</version>
+		    <groupId>org.freemarker</groupId>
+		    <artifactId>freemarker</artifactId>
+		    <version>2.3.25-incubating</version>
 		</dependency>
+
+
 		<dependency>
 			<groupId>dom4j</groupId>
 			<artifactId>dom4j</artifactId>

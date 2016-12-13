@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+<meta charset="UTF-8" />
+<title>编辑</title>
+<link th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" rel="stylesheet" media="screen"></link>
+<link rel="stylesheet" th:href="@{/resource/plugins/position-validate/css/validationEngine.jquery.css}" />
+<script type="text/javascript" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/3.2.0/js/bootstrap.min.js}"></script>
+<script th:src="@{/resource/plugins/position-validate/js/jquery.validationEngine-zh_CN.js}"></script>
+<script th:src="@{/resource/plugins/position-validate/js/jquery.validationEngine.js}"></script>
+<script type="text/javascript" th:src="@{/resource/plugins/layer/layer.js}"></script>
+<script type="text/javascript" th:src="@{/resource/logic-js/sys_child_dict_edite.js}"></script>
+<style type="text/css">
+html {
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+</style>
+</head>
+<body>
+	<div class="container-fluid" style="padding: 30px;">
+		<div class="row">
+			<form data="editForm" class="form-horizontal" id="saveObjForm">
+				<input type="hidden" name="id" th:value="${childDict.id}" />
+				<input type="hidden" name="dictId" th:value="${childDict.sysDictId}" />
+				<table class="table table-bordered">
+					<tr>
+						<td class="text-r" style="width: 15%">名称</td>
+						<td><input type="text" style="width: 80%" name="name" placeholder="请输入名称" th:value="${childDict.name}" class="form-control validate[required,minSize[2],maxSize[30]]" /></td>
+					</tr>
+					<tr>
+						<td class="text-r" style="width: 15%">key值</td>
+						<td><input type="text" style="width: 80%" name="key"
+							placeholder="请输入key值" th:value="${childDict.key}"
+							class="form-control validate[required,minSize[2],maxSize[50]]" /></td>
+					</tr>
+					<tr>
+						<td class="text-r" style="width: 15%">value值</td>
+						<td><input type="text" style="width: 80%" name="value"
+							placeholder="请输入value值" th:value="${childDict.value}"
+							class="form-control validate[required,minSize[2],maxSize[100]]" /></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
