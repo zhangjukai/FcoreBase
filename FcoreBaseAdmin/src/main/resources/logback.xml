@@ -46,7 +46,7 @@
     <logger name="org.hibernate.SQL" level="INFO" />
     <logger name="org.hibernate.engine.QueryParameters" level="INFO" />
     <logger name="org.hibernate.engine.query.HQLQueryPlan" level="INFO" /> -->
-
+	<logger name="com.fcore.base.dao" level="DEBUG"/>
     <root level="INFO">
         <appender-ref ref="INFO_FILE" />
         <appender-ref ref="ERROR_FILE" />

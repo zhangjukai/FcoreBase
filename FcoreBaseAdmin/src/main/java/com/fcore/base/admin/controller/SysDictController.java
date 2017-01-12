@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +28,7 @@ import com.fcore.base.utils.CommUtil;
 import com.fcore.base.utils.DateTimeUtil;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 
 
@@ -167,10 +167,11 @@ public class SysDictController extends BaseController{
 		param.put("sysDictId", childDict.getSysDictId());
 		JSONObject value = new JSONObject();
 		List<SysChildDict> list = childDictService.getByParams(param);
+		value.put("isMoreLevel", dict.getIsMoreLevel());
 		value.put("value", JSONArray.fromObject(list));
 		redisService.set(dict.getKey(), value);
 		
-		CommUtil.writeJson(response, object.toString());
+ 		CommUtil.writeJson(response, object.toString());
 	}
 
 }

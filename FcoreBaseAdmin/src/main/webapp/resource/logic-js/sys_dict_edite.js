@@ -1,4 +1,7 @@
 $(function(){
+	childList();
+})
+function childList(){
 	var id = $("input[name='id']").val();
 	var key = $("input[name='key']").val();
 	var isMoreLevel = $("input[name='isMoreLevel']:checked").val();
@@ -17,16 +20,17 @@ $(function(){
 				html += "<td>"+list[i].value+"</td>";
 				html += "<td>"+list[i].createTime+"</td>";
 				html += "<td>";
-				html += "<a class=\"btn btn-primary btn-xs\" onclick=\"addChild("+list[i].id+")\" role=\"button\" title=\"编辑\">编辑</a>";
+				html += "<a class=\"btn btn-primary btn-xs\" onclick=\"addChild("+list[i].id+")\" role=\"button\" title=\"编辑\">编辑</a>&nbsp;";
 				html += "<a class=\"btn btn-primary btn-xs\" onclick=\"delChild("+list[i].id+")\" role=\"button\" title=\"删除\">删除</a>";
 				html += "</td>";
 				html += "</tr>";
 			}
 			
-			$("#chiledTbody").append(html);
+			$("#chiledTbody").empty().append(html);
 		});
 	}
-})
+}
+
 function addChild(id) {
 	var dictId = $("input[name='id']").val();
 	var url = "editChild?sysDictId="+dictId;
@@ -38,13 +42,19 @@ function addChild(id) {
 		type : 2,
 		title : '添加/修改',
 		shade : 0.8,
-		area : [ '100%', '100%' ],
+		area : [ '60%', '70%' ],
 		btn : [ '确定', '取消' ],
 		yes : function(index, layero) {
-			var iframeWin = window[layero.find('iframe')[0]['name']];
-			iframeWin.save(index);
+			var iframeWin = parent.window[layero.find('iframe')[0]['name']];
+			var o = iframeWin.save(index,function(){
+				childList()
+				setTimeout(() => {
+					parent.layer.close(index);
+				}, 1000);
+			});
 		},
 		cancel : function(index) {
+			
 		}
 	});
 }

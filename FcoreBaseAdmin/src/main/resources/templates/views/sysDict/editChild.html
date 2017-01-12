@@ -11,6 +11,7 @@
 <script th:src="@{/resource/plugins/position-validate/js/jquery.validationEngine-zh_CN.js}"></script>
 <script th:src="@{/resource/plugins/position-validate/js/jquery.validationEngine.js}"></script>
 <script type="text/javascript" th:src="@{/resource/plugins/layer/layer.js}"></script>
+<script type="text/javascript" th:src="@{/resource/js/sys_common.js}"></script>
 <script type="text/javascript" th:src="@{/resource/logic-js/sys_child_dict_edite.js}"></script>
 <style type="text/css">
 html {
@@ -24,7 +25,7 @@ html {
 		<div class="row">
 			<form data="editForm" class="form-horizontal" id="saveObjForm">
 				<input type="hidden" name="id" th:value="${childDict.id}" />
-				<input type="hidden" name="dictId" th:value="${childDict.sysDictId}" />
+				<input type="hidden" name="sysDictId" th:value="${childDict.sysDictId}" />
 				<table class="table table-bordered">
 					<tr>
 						<td class="text-r" style="width: 15%">名称</td>
